@@ -35,10 +35,11 @@ global.connectorCapabilities = {
   ilike: false,
   nilike: false,
   nestedProperty: true,
-  adhocSort: false,
   supportPagination: false,
   ignoreUndefinedConditionValue: false,
   deleteWithOtherThanId: false,
+  adhocSort: false,
+  cloudantCompatible: false,
 };
 
 global.sinon = require('sinon');
