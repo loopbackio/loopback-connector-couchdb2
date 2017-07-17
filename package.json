@@ -1,0 +1,53 @@
+{
+  "name": "loopback-connector-couchdb2",
+  "version": "0.0.1",
+  "description": "LoopBack Connector for CouchDB 2.0",
+  "engines": {
+    "node": ">=4"
+  },
+  "keywords": [
+    "IBM",
+    "StrongLoop",
+    "LoopBack",
+    "Couch",
+    "CouchDB",
+    "DataSource",
+    "Connector"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "node test.js",
+    "posttest": "npm run lint",
+    "mocha": "./node_modules/.bin/_mocha --timeout 40000 --require test/init.js test/*.test.js"
+  },
+  "dependencies": {
+    "async": "^1.5.0",
+    "debug": "^2.2.0",
+    "lodash": "^4.17.4",
+    "loopback-connector": "^4.0.0",
+    "nano": "^6.3.0",
+    "request": "^2.81.0",
+    "strong-globalize": "^2.6.6"
+  },
+  "devDependencies": {
+    "dockerode": "^2.4.3",
+    "eslint": "^2.13.1",
+    "eslint-config-loopback": "^4.0.0",
+    "loopback-datasource-juggler": "git://github.com/strongloop/loopback-datasource-juggler.git#couchdb/test",
+    "mocha": "^2.3.4",
+    "ms": "^2.0.0",
+    "rc": "^1.1.5",
+    "should": "^7.1.1",
+    "sinon": "^1.17.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/strongloop/loopback-connector-couchdb2.git"
+  },
+  "homepage": "https://github.com/strongloop/loopback-connector-couchdb2",
+  "bugs": {
+    "url": "https://github.com/strongloop/loopback-connector-couchdb2/issues"
+  },
+  "license": "Apache-2.0"
+}

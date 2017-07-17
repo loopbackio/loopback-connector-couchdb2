@@ -1,0 +1,229 @@
+{
+  "lib/couchdb.js": {
+    "48": [
+      "debug('CouchDB constructor settings: %j', ... )"
+    ],
+    "54": [
+      "g.f('934c33143a59fd286ff6f7d0b8fb6875')"
+    ],
+    "78": [
+      "debug('CouchDB.prototype.connect')"
+    ],
+    "170": [
+      "debug('CouchDB.prototype.insert %j %j', ... )"
+    ],
+    "189": [
+      "debug('CouchDB.prototype.create %j %j %j ', ... )"
+    ],
+    "203": [
+      "debug('CouchDB.prototype.save %j %j %j', ... )"
+    ],
+    "232": [
+      "g.f('3cde8cc9bca22c67278b202ab0720106')"
+    ],
+    "263": [
+      "debug('CouchDB.prototype.all %j %j %j', ... )"
+    ],
+    "308": [
+      "debug('CouchDB.prototype.buildSort %j', ... )"
+    ],
+    "329": [
+      "debug('CouchDB.prototype.buildSort order: %j sort: %j', ... )"
+    ],
+    "337": [
+      "debug('CouchDB.prototype.destroy %j %j %j', ... )"
+    ],
+    "359": [
+      "Error('instance method destroy tries to delete more than one item!')"
+    ],
+    "362": [
+      "debug('CouchDB.prototype.destroy db.destroy %j %j', ... )"
+    ],
+    "367": [
+      "Error('could not find matching item in database!')"
+    ],
+    "381": [
+      "debug('CouchDB.prototype.destroyAll %j %j %j', ... )"
+    ],
+    "391": [
+      "debug('CouchDB.prototype.destroyAll db.destroy %j %j', ... )"
+    ],
+    "410": [
+      "debug('CouchDB.prototype.count %j %j %j', ... )"
+    ],
+    "426": [
+      "debug('CouchDB.prototype.exists %j %j %j', ... )"
+    ],
+    "446": [
+      "debug('CouchDB.prototype.find %j %j %j', ... )"
+    ],
+    "465": [
+      "debug('CouchDB.prototype.updateAttributes %j %j %j', ... )"
+    ],
+    "490": [
+      "debug('CouchDB.prototype.updateOrCreate %j %j', ... )"
+    ],
+    "529": [
+      "debug('CouchDB.prototype.updateAll %j %j %j %j', ... )"
+    ],
+    "547": [
+      "util.format('Unable to update 1 or more ')"
+    ],
+    "548": [
+      "util.format('document(s): %s', ... )"
+    ],
+    "566": [
+      "debug('CouchDB.prototype.bulkReplace %j %j', ... )"
+    ],
+    "579": [
+      "util.format('Unable to update 1 or more ')"
+    ],
+    "580": [
+      "util.format('document(s): %s', ... )"
+    ],
+    "593": [
+      "debug('CouchDB.prototype.ping')"
+    ],
+    "595": [
+      "debug('CouchDB.prototype.ping results %j %j', ... )"
+    ],
+    "596": [
+      "cb('ping failed')"
+    ],
+    "611": [
+      "debug('CouchDB.prototype.replaceOrCreate %j %j', ... )"
+    ],
+    "653": [
+      "debug('CouchDB.prototype.replaceById %j %j %j', ... )"
+    ],
+    "704": [
+      "debug('CouchDB.prototype.selectModel use %j', ... )"
+    ],
+    "732": [
+      "debug('CouchDB.prototype.autoupdate %j', ... )"
+    ],
+    "745": [
+      "debug('automigrate iterate props, propertyName %s value %s', ... )"
+    ],
+    "779": [
+      "debug('CouchDB.prototype.automigrate models %j', ... )"
+    ],
+    "797": [
+      "debug('CouchDB.prototype.automigrate %j', ... )"
+    ],
+    "848": [
+      "debug('CouchDB.prototype.updateIndex -- modelName %s, idx %s', ... )"
+    ],
+    "854": [
+      "debug('CouchDB.prototype.updateIndex index %j %j', ... )"
+    ],
+    "988": [
+      "g.warn('38dd36a9798bf63308e55de0beec2b86')"
+    ],
+    "1061": [
+      "newFields.push('$elemMatch')"
+    ],
+    "1091": [
+      "debug('CouchDB.prototype.all (findRecursive) results: %j %j', ... )"
+    ],
+    "1104": [
+      "debug('findRecursive query: %s', ... )"
+    ],
+    "1105": [
+      "util.format('No documents returned for query: %s', ... )"
+    ],
+    "1149": [
+      "f.hasOwnProperty('_id:number')"
+    ],
+    "1239": [
+      "debug('createIndex: ddocName %s, indexName %s, fields %s', ... )"
+    ]
+  },
+  "lib/discovery.js": {
+    "20": [
+      "debug('CouchDB2.prototype.discoverModelDefinitions %j', ... )"
+    ],
+    "27": [
+      "debug('CouchDB2.prototype.discoverModelDefinitions %j %j', ... )"
+    ],
+    "39": [
+      "debug('CouchDB2.prototype.discoverSchemas %j %j', ... )"
+    ]
+  },
+  "lib/view.js": {
+    "40": [
+      "debug('CouchDB2.prototype.view ddocName %s viewName %s options %s', ... )"
+    ]
+  },
+  "test.js": {
+    "17": [
+      "require.resolve('mocha/bin/_mocha')"
+    ],
+    "30": [
+      "ms('5s')"
+    ],
+    "35": [
+      "dockerStart('klaemo/couchdb:2.0.0')"
+    ],
+    "36": [
+      "ms('2s')"
+    ],
+    "38": [
+      "waitFor('/_all_dbs')"
+    ],
+    "39": [
+      "createDB('test-db')"
+    ],
+    "44": [
+      "console.error('error cleaning up:')"
+    ],
+    "47": [
+      "console.error('error running tests:')"
+    ],
+    "68": [
+      "console.log('pulling image: %s', ... )"
+    ],
+    "74": [
+      "console.log('starting container from image: %s', ... )"
+    ],
+    "85": [
+      "console.log('recording container for later cleanup: ')"
+    ],
+    "114": [
+      "console.log('env:')"
+    ],
+    "135": [
+      "console.log('waiting for instance to respond')"
+    ],
+    "139": [
+      "console.log('ping (%d/%d)', ... )"
+    ],
+    "141": [
+      "Error('failed to contact CouchDB')"
+    ],
+    "145": [
+      "res.on('error')"
+    ],
+    "146": [
+      "res.on('end')"
+    ],
+    "170": [
+      "console.log('creating db: %j', ... )"
+    ],
+    "173": [
+      "res.on('error')"
+    ],
+    "174": [
+      "res.on('end')"
+    ],
+    "185": [
+      "console.log('running mocha...')"
+    ],
+    "192": [
+      "fmt('mocha exited with code: %j, sig: %j', ... )"
+    ],
+    "203": [
+      "console.log('cleaning up container: %s', ... )"
+    ]
+  }
+}
