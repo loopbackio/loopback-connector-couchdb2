@@ -10,5 +10,19 @@
 var describe = require('./describe');
 
 describe('cloudant imported features', function() {
-  require('loopback-datasource-juggler/test/common.batch.js');
+  before(function() {
+  	IMPORTED_TEST = true;
+  });
+  after(function() {
+    IMPORTED_TEST = false;
+  });
+  
+  // require('loopback-datasource-juggler/test/common.batch.js');
+
+  // TODO: Delete and Uncomment above after all files have been recovered.
+	// require('loopback-datasource-juggler/test/datatype.test.js');
+	// require('loopback-datasource-juggler/test/basic-querying.test.js');
+	// require('loopback-datasource-juggler/test/manipulation.test.js');
+	// require('loopback-datasource-juggler/test/hooks.test.js');
+	require('loopback-datasource-juggler/test/relations.test.js');
 });
