@@ -6,7 +6,6 @@
 'use strict';
 
 require('./init.js');
-var Cloudant = require('../lib/cloudant');
 var _ = require('lodash');
 var async = require('async');
 var should = require('should');

@@ -1,5 +1,5 @@
-// Copyright IBM Corp. 2015,2016. All Rights Reserved.
-// Node module: loopback-connector-cloudant
+// Copyright IBM Corp. 2017. All Rights Reserved.
+// Node module: loopback-connector-couchdb2
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
@@ -8,7 +8,7 @@ var db, Foo, Bar, NotExist, isActualTestFoo, isActualTestBar;
 require('./init.js');
 var util = require('util');
 
-describe('cloudant automigrate', function() {
+describe('couchdb automigrate', function() {
   it('automigrates models attached to db', function(done) {
     db = getSchema();
     // Make sure automigrate doesn't destroy model doesn't exist

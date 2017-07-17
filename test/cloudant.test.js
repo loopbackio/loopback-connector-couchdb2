@@ -6,7 +6,7 @@
 'use strict';
 
 require('./init.js');
-var Cloudant = require('../lib/cloudant');
+var CouchDB = require('../lib/couchdb');
 var _ = require('lodash');
 var should = require('should');
 var testUtil = require('./lib/test-util');
@@ -437,13 +437,18 @@ describe('cloudant constructor', function() {
       var result = {};
       ds.settings.Driver = function(options) {
         result = options;
+        var fakedb = {db: {}};
+        fakedb.db.get = function(opts, cb) {
+          cb();
+        };
+        return fakedb;
       };
       ds.settings.foobar = {
         foo: 'bar',
       };
       ds.settings.plugin = 'whack-a-mole';
       ds.settings.requestDefault = {proxy: 'http://localhost:8080'};
-      var connector = Cloudant.initialize(ds, function(err) {
+      var connector = CouchDB.initialize(ds, function(err) {
         should.not.exist(err);
         should.exist(result.foobar);
         result.foobar.foo.should.be.equal('bar');
@@ -459,9 +464,14 @@ describe('cloudant constructor', function() {
     var result = {};
     ds.settings.Driver = function(options) {
       result = options;
+      var fakedb = {db: {}};
+      fakedb.db.get = function(opts, cb) {
+        cb();
+      };
+      return fakedb;
     };
     ds.settings.url = 'https://totallyfakeuser:fakepass@definitelynotreal.cloudant.com';
-    var connector = Cloudant.initialize(ds, function() {
+    var connector = CouchDB.initialize(ds, function() {
       // The url will definitely cause a connection error, so ignore.
       should.exist(result.url);
       result.url.should.equal(ds.settings.url);

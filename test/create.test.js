@@ -1,12 +1,11 @@
 // Copyright IBM Corp. 2016. All Rights Reserved.
-// Node module: loopback-connector-cloudant
+// Node module: loopback-connector-couchdb2
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
 'use strict';
 
 require('./init.js');
-var Cloudant = require('../lib/cloudant');
 var _ = require('lodash');
 var async = require('async');
 var should = require('should');
@@ -45,7 +44,7 @@ describe('create', function() {
       Product.findById(result.id, function(err, result) {
         err = testUtil.refinedError(err, result);
         if (err) return done(err);
-        // cloudant's post call ignores the `_rev` value for their own safety check
+        // couchdb's post call ignores the `_rev` value for their own safety check
         // therefore, creating an instance with a random `_rev` value works.
         // however, it shall not be equal to the `_rev` value the user provides.
         should.exist(result._rev);
