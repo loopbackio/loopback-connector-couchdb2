@@ -10,7 +10,6 @@ var _ = require('lodash');
 var async = require('async');
 var should = require('should');
 var url = require('url');
-var describe = require('./describe.js');
 
 var db, sampleData;
 

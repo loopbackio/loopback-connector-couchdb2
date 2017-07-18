@@ -4,7 +4,6 @@
 // License text available at https://opensource.org/licenses/Apache-2.0
 
 'use strict';
-var describe = require('./describe.js');
 
 describe('connectivity', function() {
   var db;

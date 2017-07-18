@@ -7,7 +7,6 @@
 // will recover them when CI config done
 
 'use strict';
-var describe = require('./describe');
 
 describe('CouchDB2 imported features', function() {
   before(function() {
