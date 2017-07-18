@@ -437,6 +437,11 @@ describe('CouchDB2 constructor', function() {
       var result = {};
       ds.settings.Driver = function(options) {
         result = options;
+        var fakedb = {db: {}};
+        fakedb.db.get = function(opts, cb) {
+          cb();
+        };
+        return fakedb;
       };
       ds.settings.foobar = {
         foo: 'bar',
@@ -459,6 +464,11 @@ describe('CouchDB2 constructor', function() {
     var result = {};
     ds.settings.Driver = function(options) {
       result = options;
+      var fakedb = {db: {}};
+      fakedb.db.get = function(opts, cb) {
+        cb();
+      };
+      return fakedb;
     };
     ds.settings.url = 'https://totallyfakeuser:fakepass@definitelynotreal.cloudant.com';
     var connector = CouchDB.initialize(ds, function() {
