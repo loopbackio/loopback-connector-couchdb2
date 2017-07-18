@@ -70,19 +70,8 @@ global.getDataSource = global.getSchema = function(customConfig) {
     }
   };
 
-  overrideConnector.automigrate = function(models, cb) {
-    if (db.connected) return originalConnector.automigrate(models, cb);
-    else {
-      // db.once('connected', function() {
-        originalConnector.couchdb = db.connector.couchdb;
-        originalConnector.automigrate(models, cb);
-      // });
-    };
-  };
-
   db.connector.save = overrideConnector.save;
   db.connector._insert = overrideConnector._insert;
-  // db.connector.automigrate = overrideConnector.automigrate;
 
   return db;
 };
