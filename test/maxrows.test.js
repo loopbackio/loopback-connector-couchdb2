@@ -5,19 +5,38 @@
 
 'use strict';
 
-var should = require('should');
-var db, Thing;
+/*
+NOTE: This suite is also used by loopback-connector-cloudant. 
+To support Optional Test Opt-In/Out, names of tests to be skipped
+can be added to skips array. All tests must start with a check to 
+see if the test should be skipped or not.
+The following line can be used to accomplish this: 
 
+this.test.pending ? this.skip() : null;
+*/
+
+var should = require('should');
+var db, Thing, Foo;
+var N = 201;
+
+// This test suite creates large number of data,
+// require more time to complete data cleanUp
+// There is no batchDestroy in CouchDB, so `automigrate`
+// fetches all instances then delete them one by one
 describe('CouchDB2 max rows', function() {
-  // This test suite creates large number of data,
-  // require more time to complete data cleanUp
-  // There is no batchDestroy in CouchDB, so `automigrate`
-  // fetches all instances then delete them one by one
   this.timeout(99999);
-  var Foo;
-  var N = 201;
+
+  var skips = [
+    'find all limt ten',
+    'find all skip ten limit ten',
+    'find all skip two hundred'
+  ]
+
+  if (process.env.COUCH_MAX_ROWS_TEST_SKIP) {
+    skips = JSON.parse(process.env.COUCH_MAX_ROWS_TEST_SKIP).skip;
+  }
+
   before(function(done) {
-    require('./init.js');
     db = getSchema();
     Foo = db.define('Foo', {
       bar: {type: Number, index: true},
@@ -29,7 +48,16 @@ describe('CouchDB2 max rows', function() {
     Foo.hasMany('things', {foreignKey: 'fooId'});
     db.automigrate(done);
   });
+
+  beforeEach(function() {
+    if (skips.indexOf(this.currentTest.title) > -1) {
+      this.currentTest.pending = true;
+    }
+  });
+
   it('create two hundred and one', function(done) {
+    this.test.pending ? this.skip() : null;
+
     var foos = Array.apply(null, {length: N}).map(function(n, i) {
       return {bar: i};
     });
@@ -39,7 +67,10 @@ describe('CouchDB2 max rows', function() {
       done();
     });
   });
+
   it('find all two hundred and one', function(done) {
+    this.test.pending ? this.skip() : null;
+
     Foo.all({limit: N}, function(err, entries) {
       if (err) return done(err);
       entries.should.have.lengthOf(N);
@@ -53,7 +84,10 @@ describe('CouchDB2 max rows', function() {
       });
     });
   });
-  it.skip('find all limt ten', function(done) {
+
+  it('find all limt ten', function(done) {
+    this.test.pending ? this.skip() : null;
+
     Foo.all({limit: 10, order: 'bar'}, function(err, entries) {
       if (err) return done(err);
       entries.should.have.lengthOf(10);
@@ -61,7 +95,10 @@ describe('CouchDB2 max rows', function() {
       done();
     });
   });
-  it.skip('find all skip ten limit ten', function(done) {
+
+  it('find all skip ten limit ten', function(done) {
+    this.test.pending ? this.skip() : null;
+
     Foo.all({skip: 10, limit: 10, order: 'bar'}, function(err, entries) {
       if (err) return done(err);
       entries.should.have.lengthOf(10);
@@ -69,7 +106,10 @@ describe('CouchDB2 max rows', function() {
       done();
     });
   });
-  it.skip('find all skip two hundred', function(done) {
+
+  it('find all skip two hundred', function(done) {
+    this.test.pending ? this.skip() : null;
+
     Foo.all({skip: 200, order: 'bar'}, function(err, entries) {
       if (err) return done(err);
       entries.should.have.lengthOf(1);
@@ -77,7 +117,10 @@ describe('CouchDB2 max rows', function() {
       done();
     });
   });
+
   it('find all things include foo', function(done) {
+    this.test.pending ? this.skip() : null;
+
     Thing.all({include: 'foo'}, function(err, entries) {
       if (err) return done(err);
       entries.forEach(function(t) {
@@ -88,6 +131,7 @@ describe('CouchDB2 max rows', function() {
       done();
     });
   });
+
   after(function(done) {
     Foo.destroyAll(function() {
       Thing.destroyAll(function() {
