@@ -7,7 +7,6 @@
 
 var should = require('should');
 var db, Thing;
-var describe = require('./describe.js');
 
 describe('CouchDB2 max rows', function() {
   // This test suite creates large number of data,
