@@ -18,11 +18,15 @@ this.test.pending ? this.skip() : null;
 var db, Foo, Bar, NotExist, isActualTestFoo, isActualTestBar;
 var util = require('util');
 
+if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
+  require('./init.js');
+}
+
 describe('CouchDB automigrate', function() {
   var skips = ['isActual'];
 
-  if (process.env.COUCH_AUTOMIGRATE_TEST_SKIP) {
-    skips = JSON.parse(process.env.COUCH_AUTOMIGRATE_TEST_SKIP).skip;
+  if (process.env.COUCHDB2_TEST_AUTOMIGRATE_SKIP) {
+    skips = JSON.parse(process.env.COUCHDB2_TEST_AUTOMIGRATE_SKIP).skip;
   }
 
   beforeEach(function() {

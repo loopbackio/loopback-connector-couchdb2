@@ -19,6 +19,10 @@ var should = require('should');
 var db, Thing, Foo;
 var N = 201;
 
+if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
+  require('./init.js');
+}
+
 // This test suite creates large number of data,
 // require more time to complete data cleanUp
 // There is no batchDestroy in CouchDB, so `automigrate`
@@ -32,8 +36,8 @@ describe('CouchDB2 max rows', function() {
     'find all skip two hundred'
   ]
 
-  if (process.env.COUCH_MAX_ROWS_TEST_SKIP) {
-    skips = JSON.parse(process.env.COUCH_MAX_ROWS_TEST_SKIP).skip;
+  if (process.env.COUCHDB2_TEST_MAXROWS_SKIP) {
+    skips = JSON.parse(process.env.COUCHDB2_TEST_MAXROWS_SKIP).skip;
   }
 
   before(function(done) {

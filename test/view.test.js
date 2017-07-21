@@ -5,32 +5,40 @@
 
 'use strict';
 
-require('./init.js');
 var _ = require('lodash');
 var async = require('async');
 var should = require('should');
 var url = require('url');
 
+if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
+  require('./init.js');
+}
+
 var db, sampleData;
 
-describe('CouchDB2 view', function() {
+describe('couchdb2 view', function() {
   describe('viewDocs', function(done) {
     before(function(done) {
       db = getDataSource();
       var connector = db.connector;
-      async.series([insertSampleData, insertViewDdoc], done);
+
+      db.once('connected', function(err) {
+        async.series([insertSampleData, insertViewDdoc], done);
+      });
 
       function insertSampleData(cb) {
         sampleData = generateSamples();
-        connector.couchdb.use(connector.getDbName(connector))
+        connector[connector.name].use(connector.getDbName(connector))
           .bulk({docs: sampleData}, cb);
       };
+
       function insertViewDdoc(cb) {
         var viewFunction = function(doc) {
           if (doc.model) {
             emit(doc.model, doc);
           }
         };
+
         var ddoc = {
           _id: '_design/model',
           views: {
@@ -39,7 +47,8 @@ describe('CouchDB2 view', function() {
             },
           },
         };
-        connector.couchdb.use(connector.getDbName(connector)).insert(
+
+        connector[connector.name].use(connector.getDbName(connector)).insert(
           JSON.parse(JSON.stringify(ddoc)), cb);
       };
     });
@@ -98,5 +107,6 @@ function generateSamples() {
       name: 'Jack',
     },
   ];
+  
   return samples;
 }
