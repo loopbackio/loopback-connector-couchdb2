@@ -15,6 +15,7 @@ var config = {
   username: process.env.COUCHDB_USERNAME,
   password: process.env.COUCHDB_PASSWORD,
   database: process.env.COUCHDB_DATABASE,
+  port: process.env.COUCHDB_PORT,
   plugin: 'retry',
   retryAttempts: 10,
   retryTimeout: 50,
@@ -45,12 +46,12 @@ global.getDataSource = global.getSchema = function(customConfig) {
       data[idName] = id.toString();
 
       mo.db.get(id, function(err, doc) {
-        if(err) return cb(err);
+        if (err) return cb(err);
         data._rev = doc._rev;
         var saveHandler = function(err, id) {
           if (err) return cb(err);
           mo.db.get(id, function(err, doc) {
-            if(err) return cb(err);
+            if (err) return cb(err);
             cb(null, self.fromDB(model, mo, doc));
           });
         };
