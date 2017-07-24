@@ -5,13 +5,16 @@
 
 'use strict';
 
-require('./init.js');
 var _ = require('lodash');
 var async = require('async');
 var should = require('should');
 var testUtil = require('./lib/test-util');
 var url = require('url');
 var db, Product;
+
+if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
+  require('./init.js');
+}
 
 function cleanUpData(done) {
   Product.destroyAll(done);
@@ -145,6 +148,7 @@ describe('updateAll', function() {
       name: 'bread2',
       price: 250,
     };
+
     Product.find(function(err, result) {
       err = testUtil.refinedError(err, result);
       if (err) return done(err);
@@ -174,6 +178,7 @@ describe('updateAll', function() {
       name: 'bread2',
       price: 250,
     };
+
     Product.find(function(err, result) {
       err = testUtil.refinedError(err, result);
       if (err) return done(err);
@@ -243,7 +248,9 @@ describe('bulkReplace', function() {
       description: {type: String},
       price: {type: Number},
     }, {forceId: false});
-    Product.create(breads, done);
+    db.automigrate(function(err) {
+      Product.create(breads, done);
+    });
   });
 
   afterEach(cleanUpData);
@@ -300,7 +307,9 @@ describe('updateAttributes', function() {
       price: {type: Number},
     }, {forceId: false, updateOnLoad: true});
 
-    Product.create(bread, done);
+    db.automigrate(function(err) {
+      Product.create(bread, done);
+    });
   });
 
   after(cleanUpData);
@@ -309,6 +318,7 @@ describe('updateAttributes', function() {
     var updateFields = {
       name: 'bread2',
     };
+
     Product.find(function(err, result) {
       err = testUtil.refinedError(err, result);
       if (err) return done(err);

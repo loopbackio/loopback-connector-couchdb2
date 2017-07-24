@@ -9,13 +9,17 @@
 'use strict';
 
 var should = require('should');
-require('./init.js');
 var db;
+
+if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
+  require('./init.js');
+}
 
 describe('CouchDB2 regexp', function() {
   this.timeout(99999);
   var Foo;
   var N = 10;
+
   before(function(done) {
     db = getSchema();
     Foo = db.define('Foo', {
@@ -23,6 +27,7 @@ describe('CouchDB2 regexp', function() {
     });
     db.automigrate(done);
   });
+
   it('create some foo', function(done) {
     var foos = Array.apply(null, {length: N}).map(function(n, i) {
       return {bar: String.fromCharCode(97 + i)};
@@ -33,6 +38,7 @@ describe('CouchDB2 regexp', function() {
       done();
     });
   });
+
   it('find all foos beginning with b', function(done) {
     Foo.find({where: {bar: {regexp: '^b'}}}, function(err, entries) {
       if (err) return done(err);
@@ -41,6 +47,7 @@ describe('CouchDB2 regexp', function() {
       done();
     });
   });
+
   it('find all foos that are case-insensitive B', function(done) {
     Foo.find({where: {bar: {regexp: '/B/i'}}}, function(err, entries) {
       if (err) return done(err);
@@ -49,6 +56,7 @@ describe('CouchDB2 regexp', function() {
       done();
     });
   });
+
   it('find all foos like b', function(done) {
     Foo.find({where: {bar: {like: 'b'}}}, function(err, entries) {
       if (err) return done(err);
@@ -57,6 +65,7 @@ describe('CouchDB2 regexp', function() {
       done();
     });
   });
+
   it('find all foos not like b', function(done) {
     Foo.find({where: {bar: {nlike: 'b'}}}, function(err, entries) {
       if (err) return done(err);
@@ -64,6 +73,7 @@ describe('CouchDB2 regexp', function() {
       done();
     });
   });
+
   after(function(done) {
     Foo.destroyAll(function() {
       done();
