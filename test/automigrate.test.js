@@ -6,11 +6,11 @@
 'use strict';
 
 /*
-NOTE: This suite is also used by loopback-connector-cloudant. 
+NOTE: This suite is also used by loopback-connector-cloudant.
 To support Optional Test Opt-In/Out, names of tests to be skipped
-can be added to skips array. All tests must start with a check to 
+can be added to skips array. All tests must start with a check to
 see if the test should be skipped or not.
-The following line can be used to accomplish this: 
+The following line can be used to accomplish this:
 
 this.test.pending ? this.skip() : null;
 */
@@ -83,7 +83,6 @@ describe('CouchDB automigrate', function() {
         });
       });
     });
-    
   });
 
   it('destroy existing model when automigrates', function(done) {
@@ -138,7 +137,7 @@ describe('CouchDB automigrate', function() {
       if (skips.indexOf(this.test.parent.title) > -1) {
         this.skip();
       }
-    })
+    });
 
     db = getSchema();
 
