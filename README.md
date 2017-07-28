@@ -6,7 +6,6 @@ only in Cloudant but that is now available in CouchDB.
 
 <!-- TOC -->
 
-- [loopback-connector-couchdb2](#loopback-connector-couchdb2)
 - [Getting Started](#getting-started)
   - [Model](#model)
     - [Map Between Model And Document](#map-between-model-and-document)
@@ -29,6 +28,9 @@ only in Cloudant but that is now available in CouchDB.
 - [Query](#query)
 - [View](#view)
 - [Bulk replace](#bulk-replace)
+- [Testing](#testing)
+  - [Docker](#docker)
+- [More into](#more-info)
 
 <!-- /TOC -->
 
@@ -472,7 +474,7 @@ module.exports = function(app) {
 
 # Testing
 
-### Docker
+## Docker
 - Assuming you have [Docker](https://docs.docker.com/engine/installation/) installed, run the following script which would spawn a Couch instance on your local:
 ```bash
 source setup.sh <HOST> <USER> <PASSWORD> <PORT> <DATABASE>
