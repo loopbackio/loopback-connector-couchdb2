@@ -1,6 +1,6 @@
 {
   "name": "loopback-connector-couchdb2",
-  "version": "0.0.1",
+  "version": "0.9.0",
   "description": "LoopBack Connector for CouchDB 2.0",
   "engines": {
     "node": ">=4"
