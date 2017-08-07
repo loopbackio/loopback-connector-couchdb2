@@ -36,6 +36,8 @@ only in Cloudant but that is now available in CouchDB.
 
 # Getting Started
 
+NOTE: This is a **beta** release. Use in production is **not recommended**.
+
 ## Model 
 
 ### Map Between Model And Document
