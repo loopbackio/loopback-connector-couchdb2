@@ -33,7 +33,7 @@ describe('couchdb2 indexes', function() {
   });
 
   it('support property level indexes', function(done) {
-    connector.getIndexes(function(err, indexes) {
+    connector.getIndexes(connector.getDbName(connector), function(err, indexes) {
       should.not.exist(err);
       var indexes = indexes.indexes;
       var indexName = 'prodName_index';
@@ -70,7 +70,7 @@ describe('couchdb2 indexes', function() {
 
     db.automigrate('Product', function(err) {
       should.not.exist(err);
-      connector.getIndexes(function(err, indexes) {
+      connector.getIndexes(connector.getDbName(connector), function(err, indexes) {
         should.not.exist(err);
         var indexes = indexes.indexes;
         var indexName = 'prodPrice_index';
@@ -108,7 +108,7 @@ describe('couchdb2 indexes', function() {
 
     db.automigrate('Product', function(err) {
       should.not.exist(err);
-      connector.getIndexes(function(err, indexes) {
+      connector.getIndexes(connector.getDbName(connector), function(err, indexes) {
         var indexes = indexes.indexes;
         var priceIndex = 'prodPrice_index';
         var nameIndex = 'prodName_index';
@@ -147,7 +147,7 @@ describe('couchdb2 indexes', function() {
     db.automigrate(function(err) {
       should.not.exist(err);
 
-      connector.getIndexes(function(err, indexes) {
+      connector.getIndexes(connector.getDbName(connector), function(err, indexes) {
         should.not.exist(err);
         should.exist(indexes);
 
@@ -193,7 +193,7 @@ describe('couchdb2 indexes', function() {
     });
 
     db.automigrate('Product', function(err) {
-      connector.getIndexes(function(err, indexes) {
+      connector.getIndexes(connector.getDbName(connector), function(err, indexes) {
         var indexes = indexes.indexes;
         var indexName = 'price_code_index';
 
@@ -217,7 +217,7 @@ describe('couchdb2 indexes', function() {
   it('throw error when composite indexes go opposite direction', function(done) {
     Product = db.define(modelName, {
       prodName: {type: String, index: true},
-      prodPrice: {type: Number},
+      prodPrice: {type: Number, index: true},
       prodCode: {type: String},
     }, {
       indexes: {
@@ -267,7 +267,7 @@ describe('couchdb2 indexes', function() {
 
     it('user specified index', function(done) {
       Product.find({where: {prodPrice: {gt: 0}}}, {
-        use_index: 'loopback__model__name__Product__index__price_code_index',
+        use_index: 'LBModel__Product__LBIndex__prodPrice_index',
       }, function(err, products) {
         should.not.exist(err);
         should.exist(products);
