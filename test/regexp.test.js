@@ -21,7 +21,7 @@ describe('CouchDB2 regexp', function() {
   var N = 10;
 
   before(function(done) {
-    db = getSchema();
+    db = global.getSchema();
     Foo = db.define('Foo', {
       bar: {type: String, index: true},
     });

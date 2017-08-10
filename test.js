@@ -175,8 +175,8 @@ function createDB(db) {
         setImmediate(next, null, container);
       });
     })
-    .on('error', next)
-    .end();
+      .on('error', next)
+      .end();
   };
 }
 

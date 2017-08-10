@@ -19,7 +19,7 @@ var db, sampleData;
 describe('couchdb2 view', function() {
   describe('viewDocs', function(done) {
     before(function(done) {
-      db = getDataSource();
+      db = global.getDataSource();
       var connector = db.connector;
 
       db.once('connected', function(err) {
@@ -33,17 +33,14 @@ describe('couchdb2 view', function() {
       };
 
       function insertViewDdoc(cb) {
-        var viewFunction = function(doc) {
-          if (doc.model) {
-            emit(doc.model, doc);
-          }
-        };
+        var viewFunction = 'function(doc) { if (doc.model) ' +
+          '{ emit(doc.model, doc); }}';
 
         var ddoc = {
           _id: '_design/model',
           views: {
             getModel: {
-              map: viewFunction.toString(),
+              map: viewFunction,
             },
           },
         };
@@ -107,6 +104,6 @@ function generateSamples() {
       name: 'Jack',
     },
   ];
-  
+
   return samples;
 }
