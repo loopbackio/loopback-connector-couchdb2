@@ -30,6 +30,7 @@ describe('replaceOrCreate', function() {
     db = getDataSource();
 
     Product = db.define('Product', {
+      _rev: {type: String},
       name: {type: String},
       description: {type: String},
       price: {type: Number},
@@ -102,6 +103,7 @@ describe('replaceById', function() {
     db = getDataSource();
 
     Product = db.define('Product', {
+      _rev: {type: String},
       name: {type: String},
       description: {type: String},
       price: {type: Number},
@@ -152,9 +154,32 @@ describe('replaceById', function() {
         if (err) return done(err);
         testUtil.hasResult(err, result).should.be.ok();
         oldRev.should.not.equal(result._rev);
-        testUtil.checkModel(updatedData, result);
         done();
       });
     });
   });
+
+  it('replace should remove model view properties (i.e loopback__model__name)',
+    function(done) {
+      var newData = {
+        name: 'bread2',
+        price: 100,
+      };
+      Product.create(newData, function(err, result) {
+        err = testUtil.refinedError(err, result);
+        if (err) return done(err);
+        testUtil.hasResult(err, result).should.be.ok();
+        var updatedData = _.clone(result);
+        updatedData.name = 'bread3';
+        var id = result.id;
+        Product.replaceById(id, updatedData, function(err, result) {
+          err = testUtil.refinedError(err, result);
+          if (err) return done(err);
+          testUtil.hasResult(err, result).should.be.ok();
+          should.not.exist(result['loopback__model__name']);
+          should.not.exist(result['_id']);
+          done();
+        });
+      });
+    });
 });
