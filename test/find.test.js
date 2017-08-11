@@ -36,7 +36,7 @@ var bread = [{
 
 describe('find', function() {
   before(function(done) {
-    db = getDataSource();
+    db = global.getDataSource();
 
     Product = db.define('Product', {
       id: {type: Number, required: true, id: true},

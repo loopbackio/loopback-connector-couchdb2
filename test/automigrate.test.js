@@ -38,7 +38,7 @@ describe('CouchDB automigrate', function() {
   it('automigrates models attached to db', function(done) {
     this.test.pending ? this.skip() : null;
 
-    db = getSchema();
+    db = global.getSchema();
     // Make sure automigrate doesn't destroy model doesn't exist
     NotExist = db.define('NotExist', {
       id: {type: Number, index: true},
@@ -63,7 +63,7 @@ describe('CouchDB automigrate', function() {
   it('autoupdates models attached to db', function(done) {
     this.test.pending ? this.skip() : null;
 
-    db = getSchema();
+    db = global.getSchema();
     // each test case gets a new db since it should not contain models attached
     // to old db
     Foo = db.define('Foo', {
@@ -83,13 +83,12 @@ describe('CouchDB automigrate', function() {
         });
       });
     });
-    
   });
 
   it('destroy existing model when automigrates', function(done) {
     this.test.pending ? this.skip() : null;
 
-    db = getSchema();
+    db = global.getSchema();
     Foo = db.define('Foo', {
       updatedName: {type: String},
     });
@@ -106,7 +105,7 @@ describe('CouchDB automigrate', function() {
   it('create index for property with `index: true`', function(done) {
     this.test.pending ? this.skip() : null;
 
-    db = getSchema();
+    db = global.getSchema();
     Foo = db.define('Foo', {
       age: {type: Number, index: true},
       name: {type: String},
@@ -138,9 +137,9 @@ describe('CouchDB automigrate', function() {
       if (skips.indexOf(this.test.parent.title) > -1) {
         this.skip();
       }
-    })
+    });
 
-    db = getSchema();
+    db = global.getSchema();
 
     it('returns true only when all models exist', function(done) {
       this.test.pending ? this.skip() : null;

@@ -15,7 +15,7 @@ var db, Product, CustomerSimple, SimpleEmployee;
 
 describe('CouchDB2 connector', function() {
   before(function(done) {
-    db = getDataSource();
+    db = global.getDataSource();
 
     Product = db.define('Product', {
       name: {type: String},
@@ -130,33 +130,33 @@ describe('CouchDB2 connector', function() {
       });
 
     it('updates all matching instances with array props',
-   function(done) {
-     var data = {
-       price: 200,
-       releases: [7],
-       type: ['everything'],
-       foo: [{id: 1, name: 'bar'}],
-     };
+      function(done) {
+        var data = {
+          price: 200,
+          releases: [7],
+          type: ['everything'],
+          foo: [{id: 1, name: 'bar'}],
+        };
 
-     Product.updateAll({price: 100}, data, function(err, res) {
-       if (err) done(err);
-       Product.find(function(err, res) {
-         if (err) done(err);
-         res.length.should.equal(2);
-         res[0].name.should.oneOf(prod1.name, prod2.name);
-         res[0].price.should.equal(data.price);
-         res[0].releases.should.deepEqual(data.releases);
-         res[0].type.should.deepEqual(data.type);
-         res[0].foo.should.deepEqual(data.foo);
-         res[1].name.should.oneOf(prod1.name, prod2.name);
-         res[1].price.should.equal(data.price);
-         res[1].releases.should.deepEqual(data.releases);
-         res[1].type.should.deepEqual(data.type);
-         res[1].foo.should.deepEqual(data.foo);
-         done();
-       });
-     });
-   });
+        Product.updateAll({price: 100}, data, function(err, res) {
+          if (err) done(err);
+          Product.find(function(err, res) {
+            if (err) done(err);
+            res.length.should.equal(2);
+            res[0].name.should.oneOf(prod1.name, prod2.name);
+            res[0].price.should.equal(data.price);
+            res[0].releases.should.deepEqual(data.releases);
+            res[0].type.should.deepEqual(data.type);
+            res[0].foo.should.deepEqual(data.foo);
+            res[1].name.should.oneOf(prod1.name, prod2.name);
+            res[1].price.should.equal(data.price);
+            res[1].releases.should.deepEqual(data.releases);
+            res[1].type.should.deepEqual(data.type);
+            res[1].foo.should.deepEqual(data.foo);
+            done();
+          });
+        });
+      });
   });
 
   // the test suite is to make sure when
@@ -187,11 +187,11 @@ describe('CouchDB2 connector', function() {
         });
       it('returns null when first level property is array', function(done) {
         CustomerSimple.find({where: {'friends.name': {regexp: /^Ringo/}}},
-        function(err, customers) {
-          if (err) return done(err);
-          customers.should.be.empty();
-          done();
-        });
+          function(err, customers) {
+            if (err) return done(err);
+            customers.should.be.empty();
+            done();
+          });
       });
       it('returns result when first level property is array type' +
       ' and $elemMatch provided', function(done) {
@@ -210,11 +210,11 @@ describe('CouchDB2 connector', function() {
       it('returns null when multi-level nested property' +
       ' contains array type', function(done) {
         CustomerSimple.find({where: {'address.tags.tag': 'business'}},
-        function(err, customers) {
-          if (err) return done(err);
-          customers.should.be.empty();
-          done();
-        });
+          function(err, customers) {
+            if (err) return done(err);
+            customers.should.be.empty();
+            done();
+          });
       });
       it('returns result when multi-level nested property contains array type' +
       ' and $elemMatch provided', function(done) {
@@ -230,12 +230,12 @@ describe('CouchDB2 connector', function() {
       });
       it('returns error missing data type when sorting', function(done) {
         CustomerSimple.find({where: {'address.state': 'CA'},
-        order: 'address.city DESC'},
-          function(err, customers) {
-            should.exist(err);
-            err.message.should.match(/no_usable_index,missing_sort_index/);
-            done();
-          });
+          order: 'address.city DESC'},
+        function(err, customers) {
+          should.exist(err);
+          err.message.should.match(/no_usable_index,missing_sort_index/);
+          done();
+        });
       });
       it.skip('returns result when sorting type provided - ' +
         'missing first level property', function(done) {
@@ -256,13 +256,13 @@ describe('CouchDB2 connector', function() {
         function(done) {
           CustomerSimple.find({where: {'address.state': 'CA'},
             order: 'address.city:string DESC'},
-            function(err, customers) {
-              if (err) return done(err);
-              customers.length.should.be.equal(2);
-              customers[0].address.city.should.be.eql('San Mateo');
-              customers[1].address.city.should.be.eql('San Jose');
-              done();
-            });
+          function(err, customers) {
+            if (err) return done(err);
+            customers.length.should.be.equal(2);
+            customers[0].address.city.should.be.eql('San Mateo');
+            customers[1].address.city.should.be.eql('San Jose');
+            done();
+          });
         });
     });
     describe('defined in modelDef', function() {
@@ -351,39 +351,39 @@ describe('CouchDB2 connector', function() {
     });
 
     it('replace instances with numerical id (replaceById)',
-       function(done) {
-         var updatedData = {
-           id: data[1].id,
-           name: 'Christian Thompson',
-           age: 32,
-           _rev: rev,
-         };
-         data[1].name = updatedData.name;
-         data[1].age = updatedData.age;
+      function(done) {
+        var updatedData = {
+          id: data[1].id,
+          name: 'Christian Thompson',
+          age: 32,
+          _rev: rev,
+        };
+        data[1].name = updatedData.name;
+        data[1].age = updatedData.age;
 
-         SimpleEmployee.replaceById(data[1].id, updatedData,
-        function(err, result) {
-          should.not.exist(err);
-          should.exist(result);
-          should.equal(result.id, data[1].id);
-          should.equal(result.name, updatedData.name);
-          should.equal(result.age, updatedData.age);
-
-          SimpleEmployee.find(function(err, result) {
+        SimpleEmployee.replaceById(data[1].id, updatedData,
+          function(err, result) {
             should.not.exist(err);
             should.exist(result);
-            should.equal(result.length, 3);
-            // checkData ignoring its order
-            data.forEach(function(item, index) {
-              var r = _.find(result, function(o) {
-                return o.__data.id === item.id;
+            should.equal(result.id, data[1].id);
+            should.equal(result.name, updatedData.name);
+            should.equal(result.age, updatedData.age);
+
+            SimpleEmployee.find(function(err, result) {
+              should.not.exist(err);
+              should.exist(result);
+              should.equal(result.length, 3);
+              // checkData ignoring its order
+              data.forEach(function(item, index) {
+                var r = _.find(result, function(o) {
+                  return o.__data.id === item.id;
+                });
+                testUtil.checkData(data[index], r.__data);
               });
-              testUtil.checkData(data[index], r.__data);
+              done();
             });
-            done();
           });
-        });
-       });
+      });
 
     it('destroy instances with numerical id (destroyById)', function(done) {
       SimpleEmployee.destroyById(data[1].id, function(err, result) {
@@ -432,7 +432,7 @@ describe('CouchDB2 connector', function() {
 describe('CouchDB2 constructor', function() {
   it('should allow passthrough of properties in the settings object',
     function() {
-      var ds = getDataSource();
+      var ds = global.getDataSource();
       ds.settings = _.clone(ds.settings) || {};
       var result = {};
       ds.settings.Driver = function(options) {
@@ -459,7 +459,7 @@ describe('CouchDB2 constructor', function() {
     });
 
   it('should pass the url as an object property', function() {
-    var ds = getDataSource();
+    var ds = global.getDataSource();
     ds.settings = _.clone(ds.settings) || {};
     var result = {};
     ds.settings.Driver = function(options) {
@@ -490,7 +490,7 @@ describe('CouchDB2 constructor', function() {
       };
       return fakedb;
     };
-    var ds = getDataSource(myConfig);
+    var ds = global.getDataSource(myConfig);
     result.url.should.equal(global.config.url);
     result.database.should.equal('some');
     done();
@@ -501,7 +501,7 @@ describe('CouchDB2 constructor', function() {
     var parsedUrl = url.parse(myConfig.url);
     parsedUrl.auth = 'foo:bar';
     myConfig.url = parsedUrl.format();
-    var ds = getDataSource(myConfig);
+    var ds = global.getDataSource(myConfig);
     ds.once('error', function(err) {
       should.exist(err);
       err.statusCode.should.equal(401);
@@ -516,7 +516,7 @@ describe('CouchDB2 constructor', function() {
     parsedUrl.path = '';
     myConfig.url = parsedUrl.format();
     myConfig.database = 'idontexist';
-    var ds = getDataSource(myConfig);
+    var ds = global.getDataSource(myConfig);
     ds.once('error', function(err) {
       should.exist(err);
       err.statusCode.should.equal(404);

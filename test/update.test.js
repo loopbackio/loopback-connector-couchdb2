@@ -27,7 +27,7 @@ var bread = {
 
 describe('updateOrCreate', function() {
   before(function(done) {
-    db = getDataSource();
+    db = global.getDataSource();
 
     Product = db.define('Product', {
       name: {type: String},
@@ -88,39 +88,39 @@ describe('updateOrCreate', function() {
   });
 
   it('throws on update when model exists and _rev is different ',
-     function(done) {
-       var initialResult;
-       async.waterfall([
-         function(callback) {
-           return Product.create(bread, callback);
-         },
-         function(result, callback) {
-           return Product.findById(result.id, callback);
-         },
-         function(result, callback) {
-           initialResult = _.cloneDeep(result);
-           // Simulate the idea of another caller changing the record first!
-           result.price = 250;
-           return Product.updateOrCreate(result, callback);
-         },
-         function(result, callback) {
-           // Someone beat us to it, but we don't know that yet.
-           initialResult.price = 150;
-           return Product.updateOrCreate(initialResult, callback);
-         },
-       ], function(err, result) {
-         err = testUtil.refinedError(err, result);
-         should(_.includes(err.message, 'Document update conflict'));
-         done();
-       });
-     });
+    function(done) {
+      var initialResult;
+      async.waterfall([
+        function(callback) {
+          return Product.create(bread, callback);
+        },
+        function(result, callback) {
+          return Product.findById(result.id, callback);
+        },
+        function(result, callback) {
+          initialResult = _.cloneDeep(result);
+          // Simulate the idea of another caller changing the record first!
+          result.price = 250;
+          return Product.updateOrCreate(result, callback);
+        },
+        function(result, callback) {
+          // Someone beat us to it, but we don't know that yet.
+          initialResult.price = 150;
+          return Product.updateOrCreate(initialResult, callback);
+        },
+      ], function(err, result) {
+        err = testUtil.refinedError(err, result);
+        should(_.includes(err.message, 'Document update conflict'));
+        done();
+      });
+    });
 
   afterEach(cleanUpData);
 });
 
 describe('updateAll', function() {
   before(function(done) {
-    db = getDataSource();
+    db = global.getDataSource();
 
     Product = db.define('Product', {
       name: {type: String},
@@ -241,7 +241,7 @@ describe('bulkReplace', function() {
   }];
 
   before(function(done) {
-    db = getDataSource();
+    db = global.getDataSource();
 
     Product = db.define('Product', {
       name: {type: String},
@@ -270,36 +270,36 @@ describe('bulkReplace', function() {
       dataToBeUpdated[2].id = result[5].id;
       dataToBeUpdated[2]._rev = result[5]._rev;
       db.connector.bulkReplace('Product', dataToBeUpdated,
-      function(err, result) {
-        err = testUtil.refinedError(err, result);
-        if (err) return done(err);
-        testUtil.hasResult(err, result).should.be.ok();
-        should.equal(result.length, dataToBeUpdated.length);
-        Product.find(function(err, result) {
+        function(err, result) {
           err = testUtil.refinedError(err, result);
           if (err) return done(err);
           testUtil.hasResult(err, result).should.be.ok();
-          result.length.should.equal(breads.length);
-          done();
+          should.equal(result.length, dataToBeUpdated.length);
+          Product.find(function(err, result) {
+            err = testUtil.refinedError(err, result);
+            if (err) return done(err);
+            testUtil.hasResult(err, result).should.be.ok();
+            result.length.should.equal(breads.length);
+            done();
+          });
         });
-      });
     });
   });
 
   it('throws error when `_rev` and `_id` is not provided with data',
-  function(done) {
-    db.connector.bulkReplace('Product', dataToBeUpdated,
-      function(err, result) {
-        err = testUtil.refinedError(err, result);
-        should.exist(err);
-        done();
-      });
-  });
+    function(done) {
+      db.connector.bulkReplace('Product', dataToBeUpdated,
+        function(err, result) {
+          err = testUtil.refinedError(err, result);
+          should.exist(err);
+          done();
+        });
+    });
 });
 
 describe('updateAttributes', function() {
   before(function(done) {
-    db = getDataSource();
+    db = global.getDataSource();
 
     Product = db.define('Product', {
       name: {type: String},

@@ -33,15 +33,15 @@ describe('CouchDB2 max rows', function() {
   var skips = [
     'find all limt ten',
     'find all skip ten limit ten',
-    'find all skip two hundred'
-  ]
+    'find all skip two hundred',
+  ];
 
   if (process.env.COUCHDB2_TEST_MAXROWS_SKIP) {
     skips = JSON.parse(process.env.COUCHDB2_TEST_MAXROWS_SKIP).skip;
   }
 
   before(function(done) {
-    db = getSchema();
+    db = global.getSchema();
     Foo = db.define('Foo', {
       bar: {type: Number, index: true},
     });

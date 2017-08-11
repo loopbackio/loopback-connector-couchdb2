@@ -27,7 +27,7 @@ var bread = {
 
 describe('replaceOrCreate', function() {
   before(function(done) {
-    db = getDataSource();
+    db = global.getDataSource();
 
     Product = db.define('Product', {
       _rev: {type: String},
@@ -69,38 +69,38 @@ describe('replaceOrCreate', function() {
   });
 
   it('throws on replace when model exists and _rev is different',
-     function(done) {
-       var initialResult;
-       async.waterfall([
-         function(callback) {
-           return Product.create(bread, callback);
-         },
-         function(result, callback) {
-           return Product.findById(result.id, callback);
-         },
-         function(result, callback) {
-           initialResult = _.cloneDeep(result);
-           // Simulate the idea of another caller changing the record first!
-           result.price = 250;
-           return Product.replaceOrCreate(result, callback);
-         },
-         function(result, options, callback) {
-           initialResult.price = 150;
-           return Product.replaceOrCreate(initialResult, callback);
-         },
-       ], function(err, result) {
-         var err = testUtil.refinedError(err, result);
-         should(_.includes(err.message, 'Document update conflict'));
-         done();
-       });
-     });
+    function(done) {
+      var initialResult;
+      async.waterfall([
+        function(callback) {
+          return Product.create(bread, callback);
+        },
+        function(result, callback) {
+          return Product.findById(result.id, callback);
+        },
+        function(result, callback) {
+          initialResult = _.cloneDeep(result);
+          // Simulate the idea of another caller changing the record first!
+          result.price = 250;
+          return Product.replaceOrCreate(result, callback);
+        },
+        function(result, options, callback) {
+          initialResult.price = 150;
+          return Product.replaceOrCreate(initialResult, callback);
+        },
+      ], function(err, result) {
+        err = testUtil.refinedError(err, result);
+        should(_.includes(err.message, 'Document update conflict'));
+        done();
+      });
+    });
 
   afterEach(cleanUpData);
 });
 
 describe('replaceById', function() {
   before(function(done) {
-    db = getDataSource();
+    db = global.getDataSource();
 
     Product = db.define('Product', {
       _rev: {type: String},

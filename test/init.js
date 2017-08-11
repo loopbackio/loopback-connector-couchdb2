@@ -36,7 +36,7 @@ global.getDataSource = global.getSchema = function(customConfig) {
   var overrideConnector = {};
 
   overrideConnector.save = function(model, data, options, cb) {
-    if (!IMPORTED_TEST) {
+    if (!global.IMPORTED_TEST) {
       return originalConnector.save(model, data, options, cb);
     } else {
       var self = this;
@@ -61,7 +61,7 @@ global.getDataSource = global.getSchema = function(customConfig) {
   };
 
   overrideConnector._insert = function(model, data, cb) {
-    if (!IMPORTED_TEST) {
+    if (!global.IMPORTED_TEST) {
       return originalConnector._insert(model, data, cb);
     } else {
       originalConnector._insert(model, data, function(err, rid, rrev) {

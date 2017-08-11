@@ -24,6 +24,6 @@ describe('connectivity', function() {
   });
 
   function setUpDataSource() {
-    db = getDataSource();
+    db = global.getDataSource();
   }
 });
