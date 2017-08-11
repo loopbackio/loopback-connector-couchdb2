@@ -23,7 +23,7 @@ var EXPECTED_INDEXES = {};
 
 describe('CouchDB autoupdate', function() {
   before(function(done) {
-    db = getDataSource();
+    db = global.getDataSource();
     var testModelDef = getTestModelDef();
     AutoupdateTestFoo = db.define('AutoupdateTestFoo', testModelDef.properties,
       testModelDef.config);
@@ -77,11 +77,11 @@ function getTestModelDef() {
     config: {
       indexes: {
         'name_index': {
-            keys: {
-              firstName: 1,
-              lastName: 1,
-            },
+          keys: {
+            firstName: 1,
+            lastName: 1,
           },
+        },
       },
     },
   };
@@ -100,12 +100,12 @@ function getNewTestModelDef() {
     config: {
       indexes: {
         'fullName_index': {
-            keys: {
-              firstName: 1,
-              middleName: 1,
-              lastName: 1,
-            },
+          keys: {
+            firstName: 1,
+            middleName: 1,
+            lastName: 1,
           },
+        },
       },
     },
   };

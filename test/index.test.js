@@ -16,7 +16,7 @@ var connector, db, modelName, Product;
 
 describe('couchdb2 indexes', function() {
   before(function(done) {
-    db = getDataSource();
+    db = global.getDataSource();
     connector = db.connector;
     modelName = 'Product';
 
@@ -35,7 +35,7 @@ describe('couchdb2 indexes', function() {
   it('support property level indexes', function(done) {
     connector.getIndexes(connector.getDbName(connector), function(err, indexes) {
       should.not.exist(err);
-      var indexes = indexes.indexes;
+      indexes = indexes.indexes;
       var indexName = 'prodName_index';
 
       should.not.exist(err);
@@ -72,7 +72,7 @@ describe('couchdb2 indexes', function() {
       should.not.exist(err);
       connector.getIndexes(connector.getDbName(connector), function(err, indexes) {
         should.not.exist(err);
-        var indexes = indexes.indexes;
+        indexes = indexes.indexes;
         var indexName = 'prodPrice_index';
 
         should.not.exist(err);
@@ -109,7 +109,7 @@ describe('couchdb2 indexes', function() {
     db.automigrate('Product', function(err) {
       should.not.exist(err);
       connector.getIndexes(connector.getDbName(connector), function(err, indexes) {
-        var indexes = indexes.indexes;
+        indexes = indexes.indexes;
         var priceIndex = 'prodPrice_index';
         var nameIndex = 'prodName_index';
 
@@ -151,7 +151,7 @@ describe('couchdb2 indexes', function() {
         should.not.exist(err);
         should.exist(indexes);
 
-        var indexes = indexes.indexes;
+        indexes = indexes.indexes;
         var nameIndex = 'prodName_index';
         var codeIndex = 'prodCode_index';
 
@@ -194,7 +194,7 @@ describe('couchdb2 indexes', function() {
 
     db.automigrate('Product', function(err) {
       connector.getIndexes(connector.getDbName(connector), function(err, indexes) {
-        var indexes = indexes.indexes;
+        indexes = indexes.indexes;
         var indexName = 'price_code_index';
 
         should.not.exist(err);
