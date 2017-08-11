@@ -5,16 +5,6 @@
 
 'use strict';
 
-/*
-NOTE: This suite is also used by loopback-connector-cloudant. 
-To support Optional Test Opt-In/Out, names of tests to be skipped
-can be added to skips array. All tests must start with a check to 
-see if the test should be skipped or not.
-The following line can be used to accomplish this: 
-
-this.test.pending ? this.skip() : null;
-*/
-
 var db, Foo, Bar, NotExist, isActualTestFoo, isActualTestBar;
 var util = require('util');
 
@@ -23,22 +13,9 @@ if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
 }
 
 describe('CouchDB automigrate', function() {
-  var skips = ['isActual'];
-
-  if (process.env.COUCHDB2_TEST_AUTOMIGRATE_SKIP) {
-    skips = JSON.parse(process.env.COUCHDB2_TEST_AUTOMIGRATE_SKIP).skip;
-  }
-
-  beforeEach(function() {
-    if (skips.indexOf(this.currentTest.title) > -1) {
-      this.currentTest.pending = true;
-    }
-  });
-
   it('automigrates models attached to db', function(done) {
-    this.test.pending ? this.skip() : null;
-
     db = global.getSchema();
+
     // Make sure automigrate doesn't destroy model doesn't exist
     NotExist = db.define('NotExist', {
       id: {type: Number, index: true},
@@ -61,9 +38,8 @@ describe('CouchDB automigrate', function() {
   });
 
   it('autoupdates models attached to db', function(done) {
-    this.test.pending ? this.skip() : null;
-
     db = global.getSchema();
+
     // each test case gets a new db since it should not contain models attached
     // to old db
     Foo = db.define('Foo', {
@@ -86,9 +62,8 @@ describe('CouchDB automigrate', function() {
   });
 
   it('destroy existing model when automigrates', function(done) {
-    this.test.pending ? this.skip() : null;
-
     db = global.getSchema();
+
     Foo = db.define('Foo', {
       updatedName: {type: String},
     });
@@ -103,9 +78,8 @@ describe('CouchDB automigrate', function() {
   });
 
   it('create index for property with `index: true`', function(done) {
-    this.test.pending ? this.skip() : null;
-
     db = global.getSchema();
+
     Foo = db.define('Foo', {
       age: {type: Number, index: true},
       name: {type: String},
@@ -133,17 +107,9 @@ describe('CouchDB automigrate', function() {
   });
 
   describe('isActual', function() {
-    before(function() {
-      if (skips.indexOf(this.test.parent.title) > -1) {
-        this.skip();
-      }
-    });
-
     db = global.getSchema();
 
     it('returns true only when all models exist', function(done) {
-      this.test.pending ? this.skip() : null;
-
       // `isActual` requires the model be attached to a db,
       // therefore use db.define here
       Foo = db.define('Foo', {
@@ -160,8 +126,6 @@ describe('CouchDB automigrate', function() {
     });
 
     it('returns false when one or more models not exist', function(done) {
-      this.test.pending ? this.skip() : null;
-
       // model isActualTestFoo and isActualTestBar are not
       // defined/used elsewhere, so they don't exist in database
       isActualTestFoo = db.define('isActualTestFoo', {
@@ -179,8 +143,6 @@ describe('CouchDB automigrate', function() {
     });
 
     it('accepts string type single model as param', function(done) {
-      this.test.pending ? this.skip() : null;
-
       db.isActual('Foo', function(err, ok) {
         if (err) return done(err);
         ok.should.equal(true);

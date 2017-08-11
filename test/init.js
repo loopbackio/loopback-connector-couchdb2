@@ -26,6 +26,20 @@ console.log('env config ', config);
 global.config = config;
 global.IMPORTED_TEST = false;
 
+var skips = [
+  'find all limt ten',
+  'find all skip ten limit ten',
+  'find all skip two hundred',
+  'isActual',
+];
+
+if (process.env.LOOPBACK_MOCHA_SKIPS) {
+  process.env.LOOPBACK_MOCHA_SKIPS =
+    process.env.LOOPBACK_MOCHA_SKIPS.concat(skips);
+} else {
+  process.env.LOOPBACK_MOCHA_SKIPS = skips;
+}
+
 global.getDataSource = global.getSchema = function(customConfig) {
   var db = new DataSource(require('../'), customConfig || config);
   db.log = function(a) {

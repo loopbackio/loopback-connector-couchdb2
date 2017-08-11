@@ -37,7 +37,7 @@ async.waterfall([
   setCouchDBEnv,
   waitFor('/_all_dbs'),
   createDB('test-db'),
-  run([mochaBin, '--timeout', '40000', '--require', 'test/init.js']),
+  run([mochaBin, '--timeout', '40000', '--require', 'test/interfaces/lb-bdd.js', '--require', 'test/init.js', '--ui', 'lb-bdd']),
 ], function(testErr) {
   dockerCleanup(function(cleanupErr) {
     if (cleanupErr) {
@@ -105,6 +105,7 @@ function setCouchDBEnv(container, next) {
     // container's port 80 is dynamically mapped to an external port
     var port = _.get(c,
       ['NetworkSettings', 'Ports', '5984/tcp', '0', 'HostPort']);
+
     process.env.COUCHDB_PORT = port;
     process.env.COUCHDB_HOST = host;
     var usr = process.env.COUCHDB_USERNAME;
@@ -182,7 +183,6 @@ function createDB(db) {
 
 function run(cmd) {
   return function spawnNode(container, next) {
-    console.log('running mocha...');
     spawn(process.execPath, cmd, {stdio: 'inherit'})
       .on('error', next)
       .on('exit', onExit);
