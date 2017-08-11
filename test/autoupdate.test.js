@@ -166,10 +166,7 @@ function arrayEqual(expect, actual) {
   var notEqualMsg = util.inspect(expect, 4) + ' is not equal to ' +
     util.inspect(actual, 4);
   for (var item in expect) {
-    var key = Object.keys(expect[item])[0];
-    var value = expect[item][key];
-    var cond = {};
-    cond[key] = value;
+    var cond = expect[item];
     var i = _.findIndex(actual, cond);
     i.should.above(-1, notEqualMsg);
   }
