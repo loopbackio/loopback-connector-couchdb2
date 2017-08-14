@@ -266,6 +266,7 @@ describe('couchdb2 indexes', function() {
     });
 
     it('user specified index', function(done) {
+      /* eslint camelcase: ["error", {properties: "never"}] */
       Product.find({where: {prodPrice: {gt: 0}}}, {
         use_index: 'LBModel__Product__LBIndex__prodPrice_index',
       }, function(err, products) {

@@ -112,6 +112,7 @@ function getNewTestModelDef() {
 }
 
 function getExpectedIndexesForFirstCreatedModel() {
+  /* eslint camelcase: ["error", {properties: "never"}] */
   var result = {
     age_index: {
       ddoc: '_design/LBModel__AutoupdateTestFoo__LBIndex__age_index',

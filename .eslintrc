@@ -6,7 +6,6 @@
        "ignoreUrls": true,
        "ignorePattern": "^\\s*var\\s.=\\s*(require\\s*\\()|(/)"
      }],
-     "camelcase": 0,
      "no-unused-expressions": "off"
   }
 }
