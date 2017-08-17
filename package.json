@@ -22,7 +22,7 @@
     "lint": "eslint .",
     "test": "node test.js",
     "posttest": "npm run lint",
-    "mocha": "./node_modules/.bin/_mocha --timeout 40000 --require test/init.js --require test/interfaces/lb-bdd.js --ui lb-bdd"
+    "mocha": "./node_modules/.bin/_mocha --timeout 40000 --require test/init.js --require strong-mocha-interfaces --ui strong-bdd"
   },
   "dependencies": {
     "async": "^1.5.0",
@@ -43,7 +43,8 @@
     "ms": "^2.0.0",
     "rc": "^1.1.5",
     "should": "^7.1.1",
-    "sinon": "^1.17.2"
+    "sinon": "^1.17.2",
+    "strong-mocha-interfaces": "^1.0.0"
   },
   "repository": {
     "type": "git",
