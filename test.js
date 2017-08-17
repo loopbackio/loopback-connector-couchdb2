@@ -37,7 +37,7 @@ async.waterfall([
   setCouchDBEnv,
   waitFor('/_all_dbs'),
   createDB('test-db'),
-  run([mochaBin, '--timeout', '40000', '--require', 'test/interfaces/lb-bdd.js', '--require', 'test/init.js', '--ui', 'lb-bdd']),
+  run([mochaBin, '--timeout', '40000', '--require', 'strong-mocha-interfaces', '--require', 'test/init.js', '--ui', 'strong-bdd']),
 ], function(testErr) {
   dockerCleanup(function(cleanupErr) {
     if (cleanupErr) {

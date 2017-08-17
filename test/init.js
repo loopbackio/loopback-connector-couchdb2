@@ -35,9 +35,9 @@ var skips = [
 
 if (process.env.LOOPBACK_MOCHA_SKIPS) {
   process.env.LOOPBACK_MOCHA_SKIPS =
-    process.env.LOOPBACK_MOCHA_SKIPS.concat(skips);
+    JSON.stringify(JSON.parse(process.env.LOOPBACK_MOCHA_SKIPS).concat(skips));
 } else {
-  process.env.LOOPBACK_MOCHA_SKIPS = skips;
+  process.env.LOOPBACK_MOCHA_SKIPS = JSON.stringify(skips);
 }
 
 global.getDataSource = global.getSchema = function(customConfig) {
