@@ -1,3 +1,13 @@
+2017-08-21, Version 1.0.1
+=========================
+
+ * getMoSettings (#30) (Janny)
+
+ * Make getDriver extendable (#29) (Janny)
+
+ * Fix readme (ssh24)
+
+
 2017-08-17, Version 1.0.0
 =========================
 
