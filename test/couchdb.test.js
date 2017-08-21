@@ -48,6 +48,19 @@ describe('CouchDB2 connector', function() {
           {label: String},
         ],
       },
+    }, {
+      indexes: {
+        'address_city_index': {
+          keys: {
+            'address.city': 1,
+          },
+        },
+        'missing_property_index': {
+          keys: {
+            'missingProperty': 1,
+          },
+        },
+      },
     });
 
     SimpleEmployee = db.define('SimpleEmployee', {
@@ -230,14 +243,14 @@ describe('CouchDB2 connector', function() {
       });
       it('returns error missing data type when sorting', function(done) {
         CustomerSimple.find({where: {'address.state': 'CA'},
-          order: 'address.city DESC'},
+          order: 'address.state DESC'},
         function(err, customers) {
           should.exist(err);
           err.message.should.match(/no_usable_index,missing_sort_index/);
           done();
         });
       });
-      it.skip('returns result when sorting type provided - ' +
+      it('returns result when sorting type provided - ' +
         'missing first level property', function(done) {
         // Similar test case exist in juggler, but since it takes time to
         // recover them, I temporarily add it here
@@ -252,10 +265,15 @@ describe('CouchDB2 connector', function() {
           done();
         });
       });
-      it.skip('returns result when sorting type provided - nested property',
+      // To ensure sorting in CouchDB, it must follow some specifics:
+      // - At least one of the sort fields is included in the selector.
+      // - There is an index already defined, with all the sort fields in the same order.
+      // - Each object in the sort array has a single key.
+      // http://docs.couchdb.org/en/2.0.0/api/database/find.html#sort-syntax
+      it('returns result when sorting type provided - nested property',
         function(done) {
-          CustomerSimple.find({where: {'address.state': 'CA'},
-            order: 'address.city:string DESC'},
+          CustomerSimple.find({where: {'address.city': {gt: null}},
+            order: 'address.city DESC'},
           function(err, customers) {
             if (err) return done(err);
             customers.length.should.be.equal(2);
@@ -328,7 +346,7 @@ describe('CouchDB2 connector', function() {
       });
     });
 
-    it.skip('find instances with "order" filter (ASC)', function(done) {
+    it('find instances with "order" filter (ASC)', function(done) {
       SimpleEmployee.find({order: 'id ASC'}, function(err, result) {
         should.not.exist(err);
         should.exist(result);
@@ -339,7 +357,7 @@ describe('CouchDB2 connector', function() {
       });
     });
 
-    it.skip('find instances with "order" filter (DESC)', function(done) {
+    it('find instances with "order" filter (DESC)', function(done) {
       SimpleEmployee.find({order: 'id DESC'}, function(err, result) {
         should.not.exist(err);
         should.exist(result);
