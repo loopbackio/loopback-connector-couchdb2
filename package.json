@@ -1,6 +1,6 @@
 {
   "name": "loopback-connector-couchdb2",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publishConfig": {
     "export-tests": true
   },
