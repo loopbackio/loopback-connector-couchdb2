@@ -46,17 +46,14 @@ describe('CouchDB automigrate', function() {
       updatedName: {type: String},
     });
 
-    db.once('connected', function(err) {
+    db.autoupdate(function(err) {
       if (err) return done(err);
-      db.autoupdate(function(err) {
+      Foo.find(function(err, results) {
         if (err) return done(err);
-        Foo.find(function(err, results) {
-          if (err) return done(err);
-          // Verify autoupdate doesn't destroy existing data
-          results.length.should.equal(1);
-          results[0].name.should.equal('foo');
-          done();
-        });
+        // Verify autoupdate doesn't destroy existing data
+        results.length.should.equal(1);
+        results[0].name.should.equal('foo');
+        done();
       });
     });
   });
