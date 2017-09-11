@@ -23,7 +23,7 @@ describe('connectivity', function() {
     context('with an invalid connection', function() {
       it('returns error with fake url', function(done) {
         var fakeConfig = {
-          url: 'http://fake:foo@localhost:4'
+          url: 'http://fake:foo@localhost:4',
         };
         var fakeDB = global.getDataSource(fakeConfig);
         fakeDB.ping(function(err) {
