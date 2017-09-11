@@ -4,6 +4,7 @@
 // License text available at https://opensource.org/licenses/Apache-2.0
 
 'use strict';
+var should = require('should');
 
 if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
   require('./init.js');
@@ -17,6 +18,19 @@ describe('connectivity', function() {
     context('with a valid connection', function() {
       it('returns true', function(done) {
         db.ping(done);
+      });
+    });
+    context('with an invalid connection', function() {
+      it('returns error with fake url', function(done) {
+        var fakeConfig = {
+          url: 'http://fake:foo@localhost:4'
+        };
+        var fakeDB = global.getDataSource(fakeConfig);
+        fakeDB.ping(function(err) {
+          should.exist(err);
+          err.message.should.equal('ping failed');
+          done();
+        });
       });
     });
   });
