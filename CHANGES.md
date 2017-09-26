@@ -1,3 +1,13 @@
+2017-09-26, Version 1.0.3
+=========================
+
+ * Update nano version (#36) (Loay)
+
+ * remove event listener (#33) (Janny)
+
+ * Add stalebot configuration (Kevin Delisle)
+
+
 2017-08-22, Version 1.0.2
 =========================
 
