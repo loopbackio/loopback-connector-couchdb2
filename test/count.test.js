@@ -6,10 +6,7 @@
 'use strict';
 
 var _ = require('lodash');
-var async = require('async');
 var should = require('should');
-var testUtil = require('./lib/test-util');
-var url = require('url');
 var db, TestCountUser;
 
 if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
@@ -29,7 +26,7 @@ function cleanUpData(done) {
 };
 
 describe('count', function() {
-  before(function(done) {
+  before((done) => {
     const config = _.assign(global.config, {globalLimit: 100});
     const samples = create50Samples();
     db = global.getDataSource(config);
@@ -44,7 +41,7 @@ describe('count', function() {
     });
   });
 
-  it('returns more than 25 results with global limit set', function(done) {
+  it('returns more than 25 results with global limit set', (done) => {
     TestCountUser.count((err, r)=> {
       if (err) return done(err);
       console.log(r);
@@ -52,7 +49,7 @@ describe('count', function() {
     });
   });
 
-  it('destroys more than 25 results with global limit set', function(done) {
+  it('destroys more than 25 results with global limit set', (done) => {
     cleanUpData((err)=> {
       if (err) return done(err);
       TestCountUser.count((err, r) => {
