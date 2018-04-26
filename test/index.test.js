@@ -13,6 +13,7 @@ if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
 }
 
 var connector, db, modelName, Product;
+const DEFAULT_MODEL_VIEW = 'loopback__model__name';
 
 describe('couchdb2 indexes', function() {
   before(function(done) {
@@ -49,6 +50,7 @@ describe('couchdb2 indexes', function() {
       should.exist(index.name);
       index.name.should.equal(indexName);
       index.def.fields[0]['prodName'].should.equal('asc');
+      index.def.fields[1][DEFAULT_MODEL_VIEW].should.equal('asc');
       done();
     });
   });
@@ -86,6 +88,7 @@ describe('couchdb2 indexes', function() {
         should.exist(index.name);
         index.name.should.equal(indexName);
         index.def.fields[0]['prodPrice'].should.equal('desc');
+        index.def.fields[1][DEFAULT_MODEL_VIEW].should.equal('desc');
         done();
       });
     });
@@ -131,7 +134,9 @@ describe('couchdb2 indexes', function() {
         priceIndexDoc.name.should.equal(priceIndex);
         nameIndexDoc.name.should.equal(nameIndex);
         priceIndexDoc.def.fields[0]['prodPrice'].should.equal('desc');
+        priceIndexDoc.def.fields[1][DEFAULT_MODEL_VIEW].should.equal('desc');
         nameIndexDoc.def.fields[0]['prodName'].should.equal('asc');
+        nameIndexDoc.def.fields[1][DEFAULT_MODEL_VIEW].should.equal('asc');
         done();
       });
     });
@@ -170,7 +175,9 @@ describe('couchdb2 indexes', function() {
         codeIndexDoc.name.should.equal(codeIndex);
         nameIndexDoc.name.should.equal(nameIndex);
         codeIndexDoc.def.fields[0]['prodCode'].should.equal('asc');
+        codeIndexDoc.def.fields[1][DEFAULT_MODEL_VIEW].should.equal('asc');
         nameIndexDoc.def.fields[0]['prodName'].should.equal('asc');
+        codeIndexDoc.def.fields[1][DEFAULT_MODEL_VIEW].should.equal('asc');
         done();
       });
     });
@@ -209,6 +216,7 @@ describe('couchdb2 indexes', function() {
         index.name.should.equal(indexName);
         index.def.fields[0]['prodPrice'].should.equal('asc');
         index.def.fields[1]['prodCode'].should.equal('asc');
+        index.def.fields[2][DEFAULT_MODEL_VIEW].should.equal('asc');
         done();
       });
     });
@@ -245,6 +253,7 @@ describe('couchdb2 indexes', function() {
         compositeIndexDoc.name.should.equal(compositeIndex);
         compositeIndexDoc.def.fields[0]['prodCode'].should.equal('asc');
         compositeIndexDoc.def.fields[1]['prodPrice'].should.equal('asc');
+        compositeIndexDoc.def.fields[2][DEFAULT_MODEL_VIEW].should.equal('asc');
         done();
       });
     });
@@ -255,7 +264,7 @@ describe('couchdb2 indexes', function() {
       Product.create(data, done);
     });
 
-    it('couch picked default index', function(done) {
+    it('couchdb picked default index', function(done) {
       Product.find({
         where: {
           prodPrice: {
