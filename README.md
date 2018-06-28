@@ -248,7 +248,7 @@ look something like this:
 ```
 "mydb": {
   "name": "mydb",
-  "connector": "couchdb",
+  "connector": "couchdb2",
   "url": "https://<username>:<password>@<host>"
   "database": "test"
 }
