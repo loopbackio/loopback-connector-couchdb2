@@ -74,9 +74,9 @@ describe('CouchDB2 regexp', function() {
     });
   });
 
-  it('find all foos like b with javascript regex', function (done) {
+  it('find all foos like b with javascript regex', function(done) {
     var connector = db.connector;
-    Foo.find({where: {bar: {like: /B/i}}}, function (err, entries) {
+    Foo.find({where: {bar: {like: /B/i}}}, function(err, entries) {
       if (err) return done(err);
       entries.should.have.lengthOf(1);
       entries[0].bar.should.equal('b');
@@ -84,8 +84,8 @@ describe('CouchDB2 regexp', function() {
     });
   });
 
-  it('find all foos not like b with javascript regex', function (done) {
-    Foo.find({where: {bar: {nlike: /B/i}}}, function (err, entries) {
+  it('find all foos not like b with javascript regex', function(done) {
+    Foo.find({where: {bar: {nlike: /B/i}}}, function(err, entries) {
       if (err) return done(err);
       entries.should.have.lengthOf(N - 1);
       done();

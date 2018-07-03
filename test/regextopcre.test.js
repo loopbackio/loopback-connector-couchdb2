@@ -21,27 +21,27 @@ describe('CouchDB2 regexToPCRE', function() {
     done();
   });
 
-  it('return regular expression string', function () {
+  it('return regular expression string', function() {
     db.connector._regexToPCRE('b', false).should.equal('b');
   });
 
-  it('return regular expression string as a negitive lookahead', function () {
+  it('return regular expression string as a negitive lookahead', function() {
     db.connector._regexToPCRE('b', true).should.equal('[^b]');
   });
 
-  it('return a pcre compliant regular expression', function () {
+  it('return a pcre compliant regular expression', function() {
     db.connector._regexToPCRE(/b/, false).should.equal('b');
   });
 
-  it('return flags mapped to pcre syntax', function () {
+  it('return flags mapped to pcre syntax', function() {
     db.connector._regexToPCRE(/b/im, false).should.equal('(?im)b');
   });
 
-  it('return flags mapped to pcre syntax', function () {
+  it('return flags mapped to pcre syntax', function() {
     db.connector._regexToPCRE(/b/i, false).should.equal('(?i)b');
   });
 
-  it('return flags mapped to pcre syntax', function () {
+  it('return flags mapped to pcre syntax', function() {
     db.connector._regexToPCRE(/b/i, true).should.equal('(?i)[^b]');
   });
 });
