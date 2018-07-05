@@ -16,9 +16,8 @@ if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
 }
 
 describe('CouchDB2 regexToPCRE', function() {
-  before(function(done) {
+  before(function() {
     db = global.getSchema();
-    done();
   });
 
   it('return regular expression string', function() {

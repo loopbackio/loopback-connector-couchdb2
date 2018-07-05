@@ -75,7 +75,6 @@ describe('CouchDB2 regexp', function() {
   });
 
   it('find all foos like b with javascript regex', function(done) {
-    var connector = db.connector;
     Foo.find({where: {bar: {like: /B/i}}}, function(err, entries) {
       if (err) return done(err);
       entries.should.have.lengthOf(1);
