@@ -36,11 +36,11 @@ describe('CouchDB2 regexToPCRE', function() {
     db.connector._regexToPCRE(/b/im, false).should.equal('(?im)b');
   });
 
-  it('return flags mapped to pcre syntax', function() {
+  it('return flags mapped to pcre syntax - negative as false', function() {
     db.connector._regexToPCRE(/b/i, false).should.equal('(?i)b');
   });
 
-  it('return flags mapped to pcre syntax', function() {
+  it('return flags mapped to pcre syntax - negative as true', function() {
     db.connector._regexToPCRE(/b/i, true).should.equal('(?i)[^b]');
   });
 });
