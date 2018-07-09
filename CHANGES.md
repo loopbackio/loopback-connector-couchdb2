@@ -1,3 +1,19 @@
+2018-07-09, Version 1.3.0
+=========================
+
+ * fix: lint (#55) (Janny)
+
+ * chore: fix linting and add .npmrc (virkt25)
+
+ * PCRE Regular Expressions (#52) (Dan Jarvis)
+
+ * [WebFM] cs/pl/ru translation (#50) (tangyinb)
+
+ * remove node 4 (jannyHou)
+
+ * correct the connector name (jannyHou)
+
+
 2018-04-27, Version 1.2.1
 =========================
 
