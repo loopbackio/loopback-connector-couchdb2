@@ -46,7 +46,8 @@ describe('couchdb2 view', function() {
         };
 
         connector[connector.name].use(connector.getDbName(connector)).insert(
-          JSON.parse(JSON.stringify(ddoc)), cb);
+          JSON.parse(JSON.stringify(ddoc)), cb
+        );
       };
     });
 
