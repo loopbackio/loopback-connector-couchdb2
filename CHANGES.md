@@ -1,3 +1,17 @@
+2019-05-07, Version 1.4.0
+=========================
+
+ * chore: update strong-globalize version (Diana Lau)
+
+ * chore: update copyrights years (Diana Lau)
+
+ * fix: update lodash (#58) (Janny)
+
+ * fix: honor fields in the filter (#59) (Janny)
+
+ * fix: eslint (#56) (Janny)
+
+
 2018-07-09, Version 1.3.0
 =========================
 
