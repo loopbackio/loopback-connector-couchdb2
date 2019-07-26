@@ -6,7 +6,7 @@
   },
   "description": "LoopBack Connector for CouchDB 2.0",
   "engines": {
-    "node": ">=6"
+    "node": ">=8.9"
   },
   "author": "IBM Corp.",
   "keywords": [
