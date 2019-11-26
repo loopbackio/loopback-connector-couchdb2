@@ -1,3 +1,11 @@
+2019-11-26, Version 1.5.3
+=========================
+
+ * feat: add partition field to model (#72) (Janny)
+
+ * chore: improve issue and PR templates (Nora)
+
+
 2019-11-19, Version 1.5.2
 =========================
 
