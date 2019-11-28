@@ -19,6 +19,7 @@ var mochaBin = require.resolve('mocha/bin/_mocha');
 process.env.COUCHDB_DATABASE = 'test-db';
 process.env.COUCHDB_PASSWORD = 'pass';
 process.env.COUCHDB_USERNAME = 'admin';
+process.env.COUCHDB_DATABASE_CREATE = true;
 
 // these are placeholders. They get set dynamically based on what IP and port
 // get assigned by docker.
@@ -31,13 +32,19 @@ var CONNECT_DELAY = ms('5s');
 
 var containerToDelete = null;
 
+var testOpts = [mochaBin, '--timeout', '40000', '--require', 'strong-mocha-interfaces', '--require', 'test/init.js', '--ui', 'strong-bdd'];
+if (process.env.MOCHA_OPT_GREP) {
+  testOpts.push('--grep');
+  testOpts.push(process.env.MOCHA_OPT_GREP);
+}
+
 async.waterfall([
   dockerStart('klaemo/couchdb:2.0.0'),
   sleep(ms('2s')),
   setCouchDBEnv,
   waitFor('/_all_dbs'),
   createDB('test-db'),
-  run([mochaBin, '--timeout', '40000', '--require', 'strong-mocha-interfaces', '--require', 'test/init.js', '--ui', 'strong-bdd']),
+  run(testOpts),
 ], function(testErr) {
   dockerCleanup(function(cleanupErr) {
     if (cleanupErr) {
@@ -119,6 +126,7 @@ function setCouchDBEnv(container, next) {
       'COUCHDB_USERNAME',
       'COUCHDB_PASSWORD',
       'COUCHDB_DATABASE',
+      'COUCHDB_DATABASE_CREATE',
     ]));
     next(null, container);
   });
