@@ -536,7 +536,10 @@ describe('CouchDB2 constructor', function() {
       myConfig.url = parsedUrl.format();
       myConfig.database = 'idontexist';
       var ds = global.getDataSource(myConfig);
-      ds.once('created', function(err) {
+      /*
+        we should receive here 'create' event but juggler.DataSource has no such event - oops!
+       */
+      ds.once('couchdb.connector.db_created', function(err) {
         should.equal(err, null);
         done();
       });
