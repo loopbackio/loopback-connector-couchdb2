@@ -19,7 +19,7 @@ var mochaBin = require.resolve('mocha/bin/_mocha');
 process.env.COUCHDB_DATABASE = 'test-db';
 process.env.COUCHDB_PASSWORD = 'pass';
 process.env.COUCHDB_USERNAME = 'admin';
-process.env.COUCHDB_DATABASE_CREATE = true;
+// process.env.COUCHDB_DATABASE_CREATE = true;
 
 // these are placeholders. They get set dynamically based on what IP and port
 // get assigned by docker.

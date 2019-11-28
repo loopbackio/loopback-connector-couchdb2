@@ -528,21 +528,36 @@ describe('CouchDB2 constructor', function() {
       done();
     });
   });
-  it('should give 404 error for nonexistant db', function(done) {
-    var myConfig = _.clone(global.config);
-    var parsedUrl = url.parse(myConfig.url);
-    parsedUrl.path = '';
-    myConfig.url = parsedUrl.format();
-    myConfig.database = 'idontexist';
-    var ds = global.getDataSource(myConfig);
-    ds.once('error', function(err) {
-      should.exist(err);
-      err.statusCode.should.equal(404);
-      err.error.should.equal('not_found');
-      err.reason.should.equal('Database does not exist.');
-      done();
+  if (global.config.databaseCreate === 'true' || global.config.databaseCreate === '1') {
+    it('should create nonexistant db on 404 error', function(done) {
+      var myConfig = _.clone(global.config);
+      var parsedUrl = url.parse(myConfig.url);
+      parsedUrl.path = '';
+      myConfig.url = parsedUrl.format();
+      myConfig.database = 'idontexist';
+      var ds = global.getDataSource(myConfig);
+      ds.once('created', function(err) {
+        should.equal(err, null);
+        done();
+      });
     });
-  });
+  } else {
+    it('should give 404 error for nonexistant db', function(done) {
+      var myConfig = _.clone(global.config);
+      var parsedUrl = url.parse(myConfig.url);
+      parsedUrl.path = '';
+      myConfig.url = parsedUrl.format();
+      myConfig.database = 'idontexist';
+      var ds = global.getDataSource(myConfig);
+      ds.once('error', function(err) {
+        should.exist(err);
+        err.statusCode.should.equal(404);
+        err.error.should.equal('not_found');
+        err.reason.should.equal('Database does not exist.');
+        done();
+      });
+    });
+  }
 });
 
 function seed() {
