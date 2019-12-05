@@ -44,7 +44,7 @@
     "mocha": "^4.0.0",
     "ms": "^2.0.0",
     "rc": "^1.1.5",
-    "should": "^7.1.1",
+    "should": "^8.4.0",
     "sinon": "^1.17.2",
     "strong-mocha-interfaces": "^1.0.0"
   },
