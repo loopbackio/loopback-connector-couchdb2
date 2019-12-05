@@ -67,6 +67,7 @@ function dockerStart(imgName) {
   return function pullAndStart(next) {
     console.log('pulling image: %s', imgName);
     docker.pull(imgName, function(err, stream) {
+      if (err) return next(err);
       docker.modem.followProgress(stream, function(err, output) {
         if (err) {
           return next(err);
