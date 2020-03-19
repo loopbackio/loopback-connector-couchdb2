@@ -5,14 +5,14 @@
 
 'use strict';
 
-var _ = require('lodash');
-var should = require('should');
+const _ = require('lodash');
+const should = require('should');
 
 if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
   require('./init.js');
 }
 
-var connector, db, modelName, Product;
+let connector, db, modelName, Product;
 const DEFAULT_MODEL_VIEW = 'loopback__model__name';
 
 describe('couchdb2 indexes', function() {
@@ -37,12 +37,12 @@ describe('couchdb2 indexes', function() {
     connector.getIndexes(connector.getDbName(connector), function(err, indexes) {
       should.not.exist(err);
       indexes = indexes.indexes;
-      var indexName = 'prodName_index';
+      const indexName = 'prodName_index';
 
       should.not.exist(err);
       should.exist(indexes);
 
-      var index = _.find(indexes, function(index) {
+      const index = _.find(indexes, function(index) {
         return index.name === indexName;
       });
 
@@ -75,12 +75,12 @@ describe('couchdb2 indexes', function() {
       connector.getIndexes(connector.getDbName(connector), function(err, indexes) {
         should.not.exist(err);
         indexes = indexes.indexes;
-        var indexName = 'prodPrice_index';
+        const indexName = 'prodPrice_index';
 
         should.not.exist(err);
         should.exist(indexes);
 
-        var index = _.find(indexes, function(index) {
+        const index = _.find(indexes, function(index) {
           return index.name === indexName;
         });
 
@@ -113,17 +113,17 @@ describe('couchdb2 indexes', function() {
       should.not.exist(err);
       connector.getIndexes(connector.getDbName(connector), function(err, indexes) {
         indexes = indexes.indexes;
-        var priceIndex = 'prodPrice_index';
-        var nameIndex = 'prodName_index';
+        const priceIndex = 'prodPrice_index';
+        const nameIndex = 'prodName_index';
 
         should.not.exist(err);
         should.exist(indexes);
 
-        var priceIndexDoc = _.find(indexes, function(index) {
+        const priceIndexDoc = _.find(indexes, function(index) {
           return index.name === priceIndex;
         });
 
-        var nameIndexDoc = _.find(indexes, function(index) {
+        const nameIndexDoc = _.find(indexes, function(index) {
           return index.name === nameIndex;
         });
 
@@ -157,14 +157,14 @@ describe('couchdb2 indexes', function() {
         should.exist(indexes);
 
         indexes = indexes.indexes;
-        var nameIndex = 'prodName_index';
-        var codeIndex = 'prodCode_index';
+        const nameIndex = 'prodName_index';
+        const codeIndex = 'prodCode_index';
 
-        var nameIndexDoc = _.find(indexes, function(index) {
+        const nameIndexDoc = _.find(indexes, function(index) {
           return index.name === nameIndex;
         });
 
-        var codeIndexDoc = _.find(indexes, function(index) {
+        const codeIndexDoc = _.find(indexes, function(index) {
           return index.name === codeIndex;
         });
 
@@ -202,12 +202,12 @@ describe('couchdb2 indexes', function() {
     db.automigrate('Product', function(err) {
       connector.getIndexes(connector.getDbName(connector), function(err, indexes) {
         indexes = indexes.indexes;
-        var indexName = 'price_code_index';
+        const indexName = 'price_code_index';
 
         should.not.exist(err);
         should.exist(indexes);
 
-        var index = _.find(indexes, function(index) {
+        const index = _.find(indexes, function(index) {
           return index.name === indexName;
         });
 
@@ -243,9 +243,9 @@ describe('couchdb2 indexes', function() {
       connector.getIndexes(connector.getDbName(connector), function(err, indexes) {
         should.exist(indexes);
         indexes = indexes.indexes;
-        var compositeIndex = 'code_price_index';
+        const compositeIndex = 'code_price_index';
 
-        var compositeIndexDoc = _.find(indexes, function(index) {
+        const compositeIndexDoc = _.find(indexes, function(index) {
           return index.name === compositeIndex;
         });
 
@@ -277,9 +277,9 @@ describe('couchdb2 indexes', function() {
         should.not.exist(err);
         should.exist(products);
         // check if the prices are in descending order
-        for (var i = 1; i < products.length; i++) {
-          var previous = products[i - 1].prodPrice;
-          var current = products[i].prodPrice;
+        for (let i = 1; i < products.length; i++) {
+          const previous = products[i - 1].prodPrice;
+          const current = products[i].prodPrice;
           should.ok(previous >= current);
         }
         done();
@@ -294,13 +294,13 @@ describe('couchdb2 indexes', function() {
         should.not.exist(err);
         should.exist(products);
         // check if the prices are in ascending order
-        for (var i = 1; i < products.length; i++) {
-          var previous = products[i - 1].prodPrice;
-          var current = products[i].prodPrice;
+        for (let i = 1; i < products.length; i++) {
+          const previous = products[i - 1].prodPrice;
+          const current = products[i].prodPrice;
           should.ok(previous <= current);
         }
         // check if the codes are in ascending order
-        var codes = _.uniq(_.map(products, function(product) {
+        const codes = _.uniq(_.map(products, function(product) {
           return product.prodCode;
         }));
         should.deepEqual(codes, ['abc', 'def', 'ghi']);
@@ -310,7 +310,7 @@ describe('couchdb2 indexes', function() {
   });
 });
 
-var data = [{
+const data = [{
   prodName: 'prod1',
   prodPrice: 5,
   prodCode: 'abc',

@@ -5,12 +5,12 @@
 
 'use strict';
 
-var _ = require('lodash');
-var async = require('async');
-var should = require('should');
-var testUtil = require('./lib/test-util');
-var url = require('url');
-var db, Product;
+const _ = require('lodash');
+const async = require('async');
+const should = require('should');
+const testUtil = require('./lib/test-util');
+const url = require('url');
+let db, Product;
 
 if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
   require('./init.js');
@@ -20,7 +20,7 @@ function cleanUpData(done) {
   Product.destroyAll(done);
 }
 
-var bread = {
+const bread = {
   name: 'bread',
   price: 100,
 };
@@ -54,7 +54,7 @@ describe('replaceOrCreate', function() {
       err = testUtil.refinedError(err, result);
       if (err) return done(err);
       should.exist(result._rev);
-      var updatedBread = _.cloneDeep(result);
+      const updatedBread = _.cloneDeep(result);
       // Make the new record different a subset of the old one.
       delete updatedBread.price;
 
@@ -70,7 +70,7 @@ describe('replaceOrCreate', function() {
 
   it('throws on replace when model exists and _rev is different',
     function(done) {
-      var initialResult;
+      let initialResult;
       async.waterfall([
         function(callback) {
           return Product.create(bread, callback);
@@ -121,10 +121,10 @@ describe('replaceById', function() {
       err = testUtil.refinedError(err, result);
       if (err) return done(err);
       testUtil.hasResult(err, result).should.be.ok();
-      var updatedData = _.clone(result);
+      const updatedData = _.clone(result);
       updatedData.name = 'bread3';
-      var id = result[0].id;
-      var oldRev = result[0]._rev;
+      const id = result[0].id;
+      const oldRev = result[0]._rev;
       Product.replaceById(id, updatedData[0], function(err, result) {
         err = testUtil.refinedError(err, result);
         if (err) return done(err);
@@ -137,7 +137,7 @@ describe('replaceById', function() {
   });
 
   it('replaces instance by id after creating', function(done) {
-    var newData = {
+    const newData = {
       name: 'bread2',
       price: 100,
     };
@@ -145,10 +145,10 @@ describe('replaceById', function() {
       err = testUtil.refinedError(err, result);
       if (err) return done(err);
       testUtil.hasResult(err, result).should.be.ok();
-      var updatedData = _.clone(result);
+      const updatedData = _.clone(result);
       updatedData.name = 'bread3';
-      var id = result.id;
-      var oldRev = result._rev;
+      const id = result.id;
+      const oldRev = result._rev;
       Product.replaceById(id, updatedData, function(err, result) {
         err = testUtil.refinedError(err, result);
         if (err) return done(err);
@@ -161,7 +161,7 @@ describe('replaceById', function() {
 
   it('replace should remove model view properties (i.e loopback__model__name)',
     function(done) {
-      var newData = {
+      const newData = {
         name: 'bread2',
         price: 100,
       };
@@ -169,9 +169,9 @@ describe('replaceById', function() {
         err = testUtil.refinedError(err, result);
         if (err) return done(err);
         testUtil.hasResult(err, result).should.be.ok();
-        var updatedData = _.clone(result);
+        const updatedData = _.clone(result);
         updatedData.name = 'bread3';
-        var id = result.id;
+        const id = result.id;
         Product.replaceById(id, updatedData, function(err, result) {
           err = testUtil.refinedError(err, result);
           if (err) return done(err);

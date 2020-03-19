@@ -8,23 +8,23 @@
 const _ = require('lodash');
 const should = require('should');
 const COUNT_OF_SAMPLES = 70;
-var db, TestCountUser;
+let db, TestCountUser;
 
 if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
   require('./init.js');
 }
 
 function create50Samples() {
-  var r = [];
-  for (var i = 0; i < COUNT_OF_SAMPLES; i++) {
+  const r = [];
+  for (let i = 0; i < COUNT_OF_SAMPLES; i++) {
     r.push({name: 'user'.concat(i)});
   }
   return r;
-};
+}
 
 function cleanUpData(done) {
   TestCountUser.destroyAll(done);
-};
+}
 
 describe('count', function() {
   before((done) => {

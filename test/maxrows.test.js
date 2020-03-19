@@ -5,9 +5,9 @@
 
 'use strict';
 
-var should = require('should');
-var db, Thing, Foo;
-var N = 201;
+const should = require('should');
+let db, Thing, Foo;
+const N = 201;
 
 if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
   require('./init.js');
@@ -34,7 +34,7 @@ describe('CouchDB2 max rows', function() {
   });
 
   it('create two hundred and one', function(done) {
-    var foos = Array.apply(null, {length: N}).map(function(n, i) {
+    const foos = Array.apply(null, {length: N}).map(function(n, i) {
       return {bar: i};
     });
     Foo.create(foos, function(err, entries) {
@@ -48,7 +48,7 @@ describe('CouchDB2 max rows', function() {
     Foo.all({limit: N}, function(err, entries) {
       if (err) return done(err);
       entries.should.have.lengthOf(N);
-      var things = Array.apply(null, {length: N}).map(function(n, i) {
+      const things = Array.apply(null, {length: N}).map(function(n, i) {
         return {title: i, fooId: entries[i].id};
       });
       Thing.create(things, function(err, things) {
@@ -91,7 +91,7 @@ describe('CouchDB2 max rows', function() {
       if (err) return done(err);
       entries.forEach(function(t) {
         t.__cachedRelations.should.have.property('foo');
-        var foo = t.__cachedRelations.foo;
+        const foo = t.__cachedRelations.foo;
         foo.should.have.property('id');
       });
       done();

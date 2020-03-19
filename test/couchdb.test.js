@@ -6,12 +6,12 @@
 'use strict';
 
 require('./init.js');
-var CouchDB = require('../lib/couchdb');
-var _ = require('lodash');
-var should = require('should');
-var testUtil = require('./lib/test-util');
-var url = require('url');
-var db, Product, CustomerSimple, SimpleEmployee;
+const CouchDB = require('../lib/couchdb');
+const _ = require('lodash');
+const should = require('should');
+const testUtil = require('./lib/test-util');
+const url = require('url');
+let db, Product, CustomerSimple, SimpleEmployee;
 
 describe('CouchDB2 connector', function() {
   before(function(done) {
@@ -82,7 +82,7 @@ describe('CouchDB2 connector', function() {
   });
 
   describe('model with array props gets updated properly', function() {
-    var prod1, prod2;
+    let prod1, prod2;
     before('create Product', function(done) {
       Product.create({
         id: 1,
@@ -144,7 +144,7 @@ describe('CouchDB2 connector', function() {
 
     it('updates all matching instances with array props',
       function(done) {
-        var data = {
+        const data = {
           price: 200,
           releases: [7],
           type: ['everything'],
@@ -176,9 +176,9 @@ describe('CouchDB2 connector', function() {
   // user queries against a non existing property
   // the app won't crash
   describe('nested property', function() {
-    var seedCount = 0;
+    let seedCount = 0;
     before(function createSampleData(done) {
-      var seedItems = seed();
+      const seedItems = seed();
       seedCount = seedItems.length;
       CustomerSimple.create(seedItems, done);
     });
@@ -213,9 +213,9 @@ describe('CouchDB2 connector', function() {
         function(err, customers) {
           if (err) return done(err);
           customers.length.should.be.equal(2);
-          var expected1 = ['John Lennon', 'Paul McCartney'];
-          var expected2 = ['Paul McCartney', 'John Lennon'];
-          var actual = customers.map(function(c) { return c.name; });
+          const expected1 = ['John Lennon', 'Paul McCartney'];
+          const expected2 = ['Paul McCartney', 'John Lennon'];
+          const actual = customers.map(function(c) { return c.name; });
           should(actual).be.oneOf(expected1, expected2);
           done();
         });
@@ -258,9 +258,9 @@ describe('CouchDB2 connector', function() {
           order: 'missingProperty'}, function(err, customers) {
           if (err) return done(err);
           customers.length.should.be.equal(2);
-          var expected1 = ['San Mateo', 'San Jose'];
-          var expected2 = ['San Jose', 'San Mateo'];
-          var actual = customers.map(function(c) { return c.address.city; });
+          const expected1 = ['San Mateo', 'San Jose'];
+          const expected2 = ['San Jose', 'San Mateo'];
+          const actual = customers.map(function(c) { return c.address.city; });
           should(actual).be.oneOf(expected1, expected2);
           done();
         });
@@ -300,7 +300,7 @@ describe('CouchDB2 connector', function() {
   });
 
   describe('allow numerical `id` value', function() {
-    var data = [{
+    const data = [{
       id: 1,
       name: 'John Chow',
       age: 45,
@@ -313,7 +313,7 @@ describe('CouchDB2 connector', function() {
       name: 'Michael Santer',
       age: 30,
     }];
-    var rev;
+    let rev;
 
     before(function(done) {
       SimpleEmployee.create(data, function(err, result) {
@@ -370,7 +370,7 @@ describe('CouchDB2 connector', function() {
 
     it('replace instances with numerical id (replaceById)',
       function(done) {
-        var updatedData = {
+        const updatedData = {
           id: data[1].id,
           name: 'Christian Thompson',
           age: 32,
@@ -393,7 +393,7 @@ describe('CouchDB2 connector', function() {
               should.equal(result.length, 3);
               // checkData ignoring its order
               data.forEach(function(item, index) {
-                var r = _.find(result, function(o) {
+                const r = _.find(result, function(o) {
                   return o.__data.id === item.id;
                 });
                 testUtil.checkData(data[index], r.__data);
@@ -450,12 +450,12 @@ describe('CouchDB2 connector', function() {
 describe('CouchDB2 constructor', function() {
   it('should allow passthrough of properties in the settings object',
     function() {
-      var ds = global.getDataSource();
+      const ds = global.getDataSource();
       ds.settings = _.clone(ds.settings) || {};
-      var result = {};
+      let result = {};
       ds.settings.Driver = function(options) {
         result = options;
-        var fakedb = {db: {}};
+        const fakedb = {db: {}};
         fakedb.db.get = function(opts, cb) {
           cb();
         };
@@ -466,7 +466,7 @@ describe('CouchDB2 constructor', function() {
       };
       ds.settings.plugin = 'whack-a-mole';
       ds.settings.requestDefault = {proxy: 'http://localhost:8080'};
-      var connector = CouchDB.initialize(ds, function(err) {
+      const connector = CouchDB.initialize(ds, function(err) {
         should.not.exist(err);
         should.exist(result.foobar);
         result.foobar.foo.should.be.equal('bar');
@@ -477,49 +477,49 @@ describe('CouchDB2 constructor', function() {
     });
 
   it('should pass the url as an object property', function() {
-    var ds = global.getDataSource();
+    const ds = global.getDataSource();
     ds.settings = _.clone(ds.settings) || {};
-    var result = {};
+    let result = {};
     ds.settings.Driver = function(options) {
       result = options;
-      var fakedb = {db: {}};
+      const fakedb = {db: {}};
       fakedb.db.get = function(opts, cb) {
         cb();
       };
       return fakedb;
     };
     ds.settings.url = 'https://totallyfakeuser:fakepass@definitelynotreal.cloudant.com';
-    var connector = CouchDB.initialize(ds, function() {
+    const connector = CouchDB.initialize(ds, function() {
       // The url will definitely cause a connection error, so ignore.
       should.exist(result.url);
       result.url.should.equal(ds.settings.url);
     });
   });
   it('should convert first part of url path to database name', function(done) {
-    var myConfig = _.clone(global.config);
+    const myConfig = _.clone(global.config);
     myConfig.url = myConfig.url + '/some/random/path';
     myConfig.database = '';
-    var result = {};
+    let result = {};
     myConfig.Driver = function(options) {
       result = options;
-      var fakedb = {db: {}};
+      const fakedb = {db: {}};
       fakedb.db.get = function(opts, cb) {
         cb();
       };
       return fakedb;
     };
-    var ds = global.getDataSource(myConfig);
+    const ds = global.getDataSource(myConfig);
     result.url.should.equal(global.config.url);
     result.database.should.equal('some');
     done();
   });
 
   it('should give 401 error for wrong creds', function(done) {
-    var myConfig = _.clone(global.config);
-    var parsedUrl = url.parse(myConfig.url);
+    const myConfig = _.clone(global.config);
+    const parsedUrl = url.parse(myConfig.url);
     parsedUrl.auth = 'foo:bar';
     myConfig.url = parsedUrl.format();
-    var ds = global.getDataSource(myConfig);
+    const ds = global.getDataSource(myConfig);
     ds.once('error', function(err) {
       should.exist(err);
       err.statusCode.should.equal(401);
@@ -529,12 +529,12 @@ describe('CouchDB2 constructor', function() {
     });
   });
   it('should give 404 error for nonexistant db', function(done) {
-    var myConfig = _.clone(global.config);
-    var parsedUrl = url.parse(myConfig.url);
+    const myConfig = _.clone(global.config);
+    const parsedUrl = url.parse(myConfig.url);
     parsedUrl.path = '';
     myConfig.url = parsedUrl.format();
     myConfig.database = 'idontexist';
-    var ds = global.getDataSource(myConfig);
+    const ds = global.getDataSource(myConfig);
     ds.once('error', function(err) {
       should.exist(err);
       err.statusCode.should.equal(404);
@@ -546,7 +546,7 @@ describe('CouchDB2 constructor', function() {
 });
 
 function seed() {
-  var beatles = [
+  const beatles = [
     {
       seq: 0,
       name: 'John Lennon',

@@ -5,8 +5,8 @@
 
 'use strict';
 
-var db, Foo, Bar, NotExist, isActualTestFoo, isActualTestBar;
-var util = require('util');
+let db, Foo, Bar, NotExist, isActualTestFoo, isActualTestBar;
+const util = require('util');
 
 if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
   require('./init.js');

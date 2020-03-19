@@ -5,12 +5,12 @@
 
 'use strict';
 
-var _ = require('lodash');
-var async = require('async');
-var should = require('should');
-var testUtil = require('./lib/test-util');
-var url = require('url');
-var db, Product;
+const _ = require('lodash');
+const async = require('async');
+const should = require('should');
+const testUtil = require('./lib/test-util');
+const url = require('url');
+let db, Product;
 
 if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
   require('./init.js');
@@ -20,7 +20,7 @@ function cleanUpData(done) {
   Product.destroyAll(done);
 }
 
-var bread = [{
+const bread = [{
   id: 1,
   name: 'bread1',
   price: 100,
@@ -59,7 +59,7 @@ describe('find', function() {
       if (err) return done(err);
       should.exist(result);
       result.length.should.equal(bread.length);
-      for (var i = 0; i < bread.length; i++) {
+      for (let i = 0; i < bread.length; i++) {
         should.exist(result[i]._rev);
         testUtil.checkModel(bread[i], result);
       }
