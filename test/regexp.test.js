@@ -8,8 +8,8 @@
 
 'use strict';
 
-var should = require('should');
-var db;
+const should = require('should');
+let db;
 
 if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
   require('./init.js');
@@ -17,8 +17,8 @@ if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
 
 describe('CouchDB2 regexp', function() {
   this.timeout(99999);
-  var Foo;
-  var N = 10;
+  let Foo;
+  const N = 10;
 
   before(function(done) {
     db = global.getSchema();
@@ -29,7 +29,7 @@ describe('CouchDB2 regexp', function() {
   });
 
   it('create some foo', function(done) {
-    var foos = Array.apply(null, {length: N}).map(function(n, i) {
+    const foos = Array.apply(null, {length: N}).map(function(n, i) {
       return {bar: String.fromCharCode(97 + i)};
     });
     Foo.create(foos, function(err, entries) {

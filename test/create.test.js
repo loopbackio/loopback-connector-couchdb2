@@ -5,12 +5,12 @@
 
 'use strict';
 
-var _ = require('lodash');
-var async = require('async');
-var should = require('should');
-var testUtil = require('./lib/test-util');
-var url = require('url');
-var db, Product;
+const _ = require('lodash');
+const async = require('async');
+const should = require('should');
+const testUtil = require('./lib/test-util');
+const url = require('url');
+let db, Product;
 
 if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
   require('./init.js');
@@ -20,7 +20,7 @@ function cleanUpData(done) {
   Product.destroyAll(done);
 }
 
-var bread = {
+const bread = {
   name: 'bread',
   price: 100,
 };
@@ -39,7 +39,7 @@ describe('create', function() {
   });
 
   it('creates a model instance when `_rev` is provided', function(done) {
-    var newBread = _.cloneDeep(bread);
+    const newBread = _.cloneDeep(bread);
     newBread._rev = '1-somerandomrev';
     Product.create(newBread, function(err, result) {
       err = testUtil.refinedError(err, result);
@@ -77,7 +77,7 @@ describe('create', function() {
       err = testUtil.refinedError(err, result);
       if (err) return done(err);
       should.exist(result._rev);
-      var updatedBread = _.cloneDeep(result);
+      const updatedBread = _.cloneDeep(result);
       // Make the new record different a subset of the old one.
       delete updatedBread.price;
       Product.create(updatedBread, function(err, result) {
@@ -92,7 +92,7 @@ describe('create', function() {
 
   it('throws on update when model exists and _rev is different ',
     function(done) {
-      var initialResult;
+      let initialResult;
       async.waterfall([
         function(callback) {
           return Product.create(bread, callback);

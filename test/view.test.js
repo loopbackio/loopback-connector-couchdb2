@@ -5,22 +5,22 @@
 
 'use strict';
 
-var _ = require('lodash');
-var async = require('async');
-var should = require('should');
-var url = require('url');
+const _ = require('lodash');
+const async = require('async');
+const should = require('should');
+const url = require('url');
 
 if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
   require('./init.js');
 }
 
-var db, sampleData;
+let db, sampleData;
 
 describe('couchdb2 view', function() {
   describe('viewDocs', function(done) {
     before(function(done) {
       db = global.getDataSource();
-      var connector = db.connector;
+      const connector = db.connector;
 
       db.once('connected', function(err) {
         async.series([insertSampleData, insertViewDdoc], done);
@@ -30,13 +30,13 @@ describe('couchdb2 view', function() {
         sampleData = generateSamples();
         connector[connector.name].use(connector.getDbName(connector))
           .bulk({docs: sampleData}, cb);
-      };
+      }
 
       function insertViewDdoc(cb) {
-        var viewFunction = 'function(doc) { if (doc.model) ' +
+        const viewFunction = 'function(doc) { if (doc.model) ' +
           '{ emit(doc.model, doc); }}';
 
-        var ddoc = {
+        const ddoc = {
           _id: '_design/model',
           views: {
             getModel: {
@@ -46,9 +46,9 @@ describe('couchdb2 view', function() {
         };
 
         connector[connector.name].use(connector.getDbName(connector)).insert(
-          JSON.parse(JSON.stringify(ddoc)), cb
+          JSON.parse(JSON.stringify(ddoc)), cb,
         );
-      };
+      }
     });
 
     it('returns result by quering a view', function(done) {
@@ -61,7 +61,7 @@ describe('couchdb2 view', function() {
           function hasModelName(elem) {
             elem.value.hasOwnProperty('model').
               should.equal(true);
-          };
+          }
         });
     });
 
@@ -69,7 +69,7 @@ describe('couchdb2 view', function() {
       db.connector.viewDocs('model', 'getModel', {
         'key': 'customer',
       }, function(err, results) {
-        var expectedNames = ['Zoe', 'Jack'];
+        const expectedNames = ['Zoe', 'Jack'];
         results.rows.forEach(belongsToModelCustomer);
         done(err);
 
@@ -83,7 +83,7 @@ describe('couchdb2 view', function() {
 });
 
 function generateSamples() {
-  var samples = [
+  const samples = [
     {
       model: 'purchase',
       customerId: 1,

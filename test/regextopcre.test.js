@@ -8,8 +8,8 @@
 
 'use strict';
 
-var should = require('should');
-var db;
+const should = require('should');
+let db;
 
 if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
   require('./init.js');

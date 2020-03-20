@@ -7,10 +7,10 @@
 
 module.exports = require('should');
 
-var DataSource = require('loopback-datasource-juggler').DataSource;
-var _ = require('lodash');
+const DataSource = require('loopback-datasource-juggler').DataSource;
+const _ = require('lodash');
 
-var config = {
+const config = {
   url: process.env.COUCHDB_URL,
   username: process.env.COUCHDB_USERNAME,
   password: process.env.COUCHDB_PASSWORD,
@@ -26,7 +26,7 @@ console.log('env config ', config);
 global.config = config;
 global.IMPORTED_TEST = false;
 
-var skips = [
+const skips = [
   'find all limt ten',
   'find all skip ten limit ten',
   'find all skip two hundred',
@@ -41,28 +41,28 @@ if (process.env.LOOPBACK_MOCHA_SKIPS) {
 }
 
 global.getDataSource = global.getSchema = function(customConfig) {
-  var db = new DataSource(require('../'), customConfig || config);
+  const db = new DataSource(require('../'), customConfig || config);
   db.log = function(a) {
     console.log(a);
   };
 
-  var originalConnector = _.clone(db.connector);
-  var overrideConnector = {};
+  const originalConnector = _.clone(db.connector);
+  const overrideConnector = {};
 
   overrideConnector.save = function(model, data, options, cb) {
     if (!global.IMPORTED_TEST) {
       return originalConnector.save(model, data, options, cb);
     } else {
-      var self = this;
-      var idName = self.idName(model);
-      var id = data[idName];
-      var mo = self.selectModel(model);
+      const self = this;
+      const idName = self.idName(model);
+      const id = data[idName];
+      const mo = self.selectModel(model);
       data[idName] = id.toString();
 
       mo.db.get(id, function(err, doc) {
         if (err) return cb(err);
         data._rev = doc._rev;
-        var saveHandler = function(err, id) {
+        const saveHandler = function(err, id) {
           if (err) return cb(err);
           mo.db.get(id, function(err, doc) {
             if (err) return cb(err);

@@ -5,16 +5,16 @@
 
 'use strict';
 
-var _ = require('lodash');
-var async = require('async');
-var spawn = require('child_process').spawn;
-var docker = new require('dockerode')();
-var fmt = require('util').format;
-var http = require('http');
-var ms = require('ms');
+const _ = require('lodash');
+const async = require('async');
+const spawn = require('child_process').spawn;
+const docker = new require('dockerode')();
+const fmt = require('util').format;
+const http = require('http');
+const ms = require('ms');
 
 // we don't pass any node flags, so we can call _mocha instead the wrapper
-var mochaBin = require.resolve('mocha/bin/_mocha');
+const mochaBin = require.resolve('mocha/bin/_mocha');
 
 process.env.COUCHDB_DATABASE = 'test-db';
 process.env.COUCHDB_PASSWORD = 'pass';
@@ -26,10 +26,10 @@ process.env.COUCHDB_PORT = 'TBD';
 process.env.COUCHDB_HOST = 'TBD';
 process.env.COUCHDB_URL = 'TBD';
 
-var CONNECT_RETRIES = 30;
-var CONNECT_DELAY = ms('5s');
+const CONNECT_RETRIES = 30;
+const CONNECT_DELAY = ms('5s');
 
-var containerToDelete = null;
+let containerToDelete = null;
 
 async.waterfall([
   dockerStart('klaemo/couchdb:2.0.0'),
@@ -52,9 +52,9 @@ async.waterfall([
 
 function sleep(n) {
   return function delayedPassThrough() {
-    var args = [].slice.call(arguments);
+    const args = [].slice.call(arguments);
     // last argument is the callback
-    var next = args.pop();
+    const next = args.pop();
     // prepend `null` to indicate no error
     args.unshift(null);
     setTimeout(function() {
@@ -102,15 +102,15 @@ function setCouchDBEnv(container, next) {
     // if swarm, Node.Ip will be set to actual node's IP
     // if not swarm, but remote docker, use docker host's IP
     // if local docker, use localhost
-    var host = _.get(c, 'Node.IP', _.get(docker, 'modem.host', '127.0.0.1'));
+    const host = _.get(c, 'Node.IP', _.get(docker, 'modem.host', '127.0.0.1'));
     // container's port 80 is dynamically mapped to an external port
-    var port = _.get(c,
+    const port = _.get(c,
       ['NetworkSettings', 'Ports', '5984/tcp', '0', 'HostPort']);
 
     process.env.COUCHDB_PORT = port;
     process.env.COUCHDB_HOST = host;
-    var usr = process.env.COUCHDB_USERNAME;
-    var pass = process.env.COUCHDB_PASSWORD;
+    const usr = process.env.COUCHDB_USERNAME;
+    const pass = process.env.COUCHDB_PASSWORD;
     process.env.COUCHDB_URL = 'http://' + usr + ':' + pass + '@' +
       host + ':' + port;
     console.log('env:', _.pick(process.env, [
@@ -127,7 +127,7 @@ function setCouchDBEnv(container, next) {
 
 function waitFor(path) {
   return function waitForPath(container, next) {
-    var opts = {
+    const opts = {
       host: process.env.COUCHDB_HOST,
       port: process.env.COUCHDB_PORT,
       auth: process.env.COUCHDB_USERNAME + ':' + process.env.COUCHDB_PASSWORD,
@@ -162,7 +162,7 @@ function waitFor(path) {
 
 function createDB(db) {
   return function create(container, next) {
-    var opts = {
+    const opts = {
       method: 'PUT',
       path: '/' + db,
       host: process.env.COUCHDB_HOST,

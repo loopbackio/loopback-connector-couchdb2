@@ -5,12 +5,12 @@
 
 'use strict';
 
-var _ = require('lodash');
-var async = require('async');
-var should = require('should');
-var testUtil = require('./lib/test-util');
-var url = require('url');
-var db, Product;
+const _ = require('lodash');
+const async = require('async');
+const should = require('should');
+const testUtil = require('./lib/test-util');
+const url = require('url');
+let db, Product;
 
 if (!process.env.COUCHDB2_TEST_SKIP_INIT) {
   require('./init.js');
@@ -20,7 +20,7 @@ function cleanUpData(done) {
   Product.destroyAll(done);
 }
 
-var bread = {
+const bread = {
   name: 'bread',
   price: 100,
 };
@@ -54,7 +54,7 @@ describe('updateOrCreate', function() {
 
   it('creates when model instance does not exist but specifies id',
     function(done) {
-      var breadWithId = _.merge({id: 1}, bread);
+      const breadWithId = _.merge({id: 1}, bread);
       Product.updateOrCreate(breadWithId, function(err, result) {
         err = testUtil.refinedError(err, result);
         if (err) return done(err);
@@ -74,7 +74,7 @@ describe('updateOrCreate', function() {
       err = testUtil.refinedError(err, result);
       if (err) return done(err);
       should.exist(result._rev);
-      var updatedBread = _.cloneDeep(result);
+      const updatedBread = _.cloneDeep(result);
       // Change the record in some way before updating.
       updatedBread.price = 200;
       Product.updateOrCreate(updatedBread, function(err, result) {
@@ -89,7 +89,7 @@ describe('updateOrCreate', function() {
 
   it('throws on update when model exists and _rev is different ',
     function(done) {
-      var initialResult;
+      let initialResult;
       async.waterfall([
         function(callback) {
           return Product.create(bread, callback);
@@ -144,7 +144,7 @@ describe('updateAll', function() {
   afterEach(cleanUpData);
 
   it('updates a model instance without `_rev` property', function(done) {
-    var newData = {
+    const newData = {
       name: 'bread2',
       price: 250,
     };
@@ -153,7 +153,7 @@ describe('updateAll', function() {
       err = testUtil.refinedError(err, result);
       if (err) return done(err);
       testUtil.hasResult(err, result).should.be.ok();
-      var id = result[0].id;
+      const id = result[0].id;
       Product.update({id: id}, newData, function(err, result) {
         err = testUtil.refinedError(err, result);
         if (err) return done(err);
@@ -174,7 +174,7 @@ describe('updateAll', function() {
   });
 
   it('updates a model instance with `_rev` property', function(done) {
-    var newData = {
+    const newData = {
       name: 'bread2',
       price: 250,
     };
@@ -183,7 +183,7 @@ describe('updateAll', function() {
       err = testUtil.refinedError(err, result);
       if (err) return done(err);
       testUtil.hasResult(err, result).should.be.ok();
-      var id = result[0].id;
+      const id = result[0].id;
       newData._rev = result[0]._rev;
       Product.update({id: id}, newData, function(err, result) {
         err = testUtil.refinedError(err, result);
@@ -206,7 +206,7 @@ describe('updateAll', function() {
 });
 
 describe('bulkReplace', function() {
-  var breads = [{
+  const breads = [{
     name: 'bread1',
     price: 10,
   }, {
@@ -229,7 +229,7 @@ describe('bulkReplace', function() {
     price: 70,
   }];
 
-  var dataToBeUpdated = [{
+  const dataToBeUpdated = [{
     name: 'bread1-update',
     price: 100,
   }, {
@@ -315,7 +315,7 @@ describe('updateAttributes', function() {
   after(cleanUpData);
 
   it('update an attribute for a model instance', function(done) {
-    var updateFields = {
+    const updateFields = {
       name: 'bread2',
     };
 
@@ -323,16 +323,16 @@ describe('updateAttributes', function() {
       err = testUtil.refinedError(err, result);
       if (err) return done(err);
       testUtil.hasResult(err, result).should.be.ok();
-      var id = result[0].id;
-      var oldRev = result[0]._rev;
-      var newData = _.cloneDeep(result[0]);
+      const id = result[0].id;
+      const oldRev = result[0]._rev;
+      const newData = _.cloneDeep(result[0]);
       newData.name = updateFields.name;
-      var product = new Product(result[0]);
+      const product = new Product(result[0]);
       product.updateAttributes(newData, function(err, result) {
         err = testUtil.refinedError(err, result);
         if (err) return done(err);
         testUtil.hasResult(err, result).should.be.ok();
-        var newRev = result._rev;
+        const newRev = result._rev;
         oldRev.should.not.equal(newRev);
         Product.find(function(err, result) {
           err = testUtil.refinedError(err, result);

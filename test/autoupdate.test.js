@@ -5,16 +5,16 @@
 
 'use strict';
 
-var db, AutoupdateTestFoo, connector;
-var async = require('async');
-var _ = require('lodash');
-var util = require('util');
-var EXPECTED_INDEXES = {};
+let db, AutoupdateTestFoo, connector;
+const async = require('async');
+const _ = require('lodash');
+const util = require('util');
+let EXPECTED_INDEXES = {};
 
 describe('CouchDB autoupdate', function() {
   before(function(done) {
     db = global.getDataSource();
-    var testModelDef = getTestModelDef();
+    const testModelDef = getTestModelDef();
     AutoupdateTestFoo = db.define('AutoupdateTestFoo', testModelDef.properties,
       testModelDef.config);
     connector = db.connector;
@@ -36,7 +36,7 @@ describe('CouchDB autoupdate', function() {
     // Drop age, name indexes.
     // Add postcode, fullName indexes.
     // Keep email
-    var newTestModelDef = getNewTestModelDef();
+    const newTestModelDef = getNewTestModelDef();
 
     AutoupdateTestFoo = db.define('AutoupdateTestFoo', newTestModelDef.properties,
       newTestModelDef.config);
@@ -103,7 +103,7 @@ function getNewTestModelDef() {
 
 function getExpectedIndexesForFirstCreatedModel() {
   /* eslint camelcase: ["error", {properties: "never"}] */
-  var result = {
+  const result = {
     age_index: {
       ddoc: '_design/LBModel__AutoupdateTestFoo__LBIndex__age_index',
       fields: [{age: 'asc'}],
@@ -125,7 +125,7 @@ function getExpectedIndexesForFirstCreatedModel() {
 }
 
 function getExpectedIndexesForUpdatedModel() {
-  var result = {
+  const result = {
     postcode_index: {
       ddoc: '_design/LBModel__AutoupdateTestFoo__LBIndex__postcode_index',
       fields: [{postcode: 'asc'}],
@@ -159,14 +159,14 @@ function checkDdocname(key, ddocName) {
 
 function checkFields(key, fields) {
   arrayEqual(EXPECTED_INDEXES[key].fields, fields);
-};
+}
 
 function arrayEqual(expect, actual) {
-  var notEqualMsg = util.inspect(expect, 4) + ' is not equal to ' +
+  const notEqualMsg = util.inspect(expect, 4) + ' is not equal to ' +
     util.inspect(actual, 4);
-  for (var item in expect) {
-    var cond = expect[item];
-    var i = _.findIndex(actual, cond);
+  for (const item in expect) {
+    const cond = expect[item];
+    const i = _.findIndex(actual, cond);
     i.should.above(-1, notEqualMsg);
   }
 }
