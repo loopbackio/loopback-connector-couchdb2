@@ -33,7 +33,7 @@
     "loopback-connector": "^4.0.0",
     "nano": "^6.4.2",
     "request": "^2.81.0",
-    "strong-globalize": "^5.0.5"
+    "strong-globalize": "^6.0.3"
   },
   "devDependencies": {
     "dockerode": "^2.4.3",
