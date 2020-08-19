@@ -1,4 +1,5 @@
 # loopback-connector-couchdb2
+ test
 
 The `loopback-connector-couchdb2` module is the CouchDB 2.x connector for the
 LoopBack framework that supports the advanced functionality originally found
