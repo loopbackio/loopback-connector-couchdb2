@@ -35,11 +35,15 @@ describe('couchdb2 findById', function() {
 
   it('find an existing instance by id (Promise variant)', async function() {
     const todo = await Todo.create({name: 'a todo'});
-    console.log(todo);
     todo.name.should.eql('a todo');
     newInstId = todo.id;
     const result = await db.connector.findById('Todo', newInstId);
     result.name.should.eql('a todo');
     result.id.should.eql(todo.id);
+  });
+
+  it('returns empty when the found instance does not belong to query model', async function() {
+    const result = await db.connector.findById('Item', newInstId);
+    result.should.be.empty;
   });
 });
