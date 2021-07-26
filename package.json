@@ -20,14 +20,22 @@
   ],
   "main": "index.js",
   "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "test": "node test.js",
+    "clean": "",
+    "lint": "npm run prettier:check && npm run eslint",
+    "lint:fix": "npm run prettier:fix && npm run eslint:fix",
+    "prettier:cli": "lb-prettier \"**/*.ts\" \"**/*.js\"",
+    "prettier:check": "npm run prettier:cli -- -l",
+    "prettier:fix": "npm run prettier:cli -- --write",
+    "eslint": "lb-eslint --report-unused-disable-directives .",
+    "eslint:fix": "npm run eslint -- --fix",
+    "pretest": "npm run clean",
+    "test": "lb-mocha \"test/*.test.js\"",
     "posttest": "npm run lint",
-    "mocha": "./node_modules/.bin/_mocha --timeout 40000 --require test/init.js --require strong-mocha-interfaces --ui strong-bdd"
+    "start": "node .",
+    "prepublishOnly": "npm run test"
   },
   "dependencies": {
-    "async": "^1.5.0",
+    "async": "^3.2.0",
     "debug": "^4.1.1",
     "lodash": "^4.17.11",
     "loopback-connector": "^4.0.0",
@@ -36,12 +44,10 @@
     "strong-globalize": "^6.0.3"
   },
   "devDependencies": {
-    "dockerode": "^2.4.3",
+    "@loopback/build": "^7.0.0",
     "escape-string-regexp": "1.0.5",
-    "eslint": "^7.31.0",
     "eslint-config-loopback": "^13.1.0",
     "loopback-datasource-juggler": "^3.0.0",
-    "mocha": "^9.0.3",
     "ms": "^2.0.0",
     "rc": "^1.1.5",
     "should": "^13.2.3",

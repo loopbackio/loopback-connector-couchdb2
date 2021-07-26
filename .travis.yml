@@ -1,0 +1,18 @@
+arch: arm64
+dist: bionic
+language: nodejs
+services: [docker]
+node_js: 14
+
+git:
+  depth: 1
+
+env:
+  COUCHDB_URL: http://admin:travis@127.0.0.1:5984/test-db
+
+before_script:
+  - COUCHDB_CONTAINER_ID=$(docker run -p 5984:5984 -d --health-cmd='curl http://admin:travis@127.0.0.1:5984' couchdb)
+  - until [ "`docker inspect -f {{.State.Health.Status}} $COUCHDB_CONTAINER_ID`"=="healthy" ]; do
+      sleep 0.1;
+    done;
+  - curl -X PUT $COUCHDB_URL
