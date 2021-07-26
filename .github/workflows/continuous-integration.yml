@@ -17,13 +17,7 @@ jobs:
     name: Test
     timeout-minutes: 15
     env:
-      # Note: If set, COUCHDB_URL will override the other env vars. The other env. vars are kept for ease of readability.
-      COUCDHB_USERNAME: admin
-      COUCHDB_PASSWORD: pass
-      COUCHDB_DATABASE: test-db
-      COUCHDB_HOST: '127.0.0.1'
-      COUCHDB_PORT: 5984
-      COUCHDB_URL: http://${{ env.COUCHDB_HOST }}:${{ env.COUCHDB_PASSWORD }}@${{ env.COUCHDB_HOST }}:${{ env.COUCHDB_PORT }}
+      COUCHDB_URL: http://admin:pass@127.0.0.1
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -39,8 +33,8 @@ jobs:
       couchdb:
         image: couchdb
         env:
-          COUCHDB_USER: ${{ env.COUCHDB_USERNAME }}
-          COUCHDB_PASSWORD: ${{ env.COUCHDB_PASSWORD }}
+          COUCHDB_USER: admin
+          COUCHDB_PASSWORD: pass
     steps:
       - uses: actions/checkout@v2
         with:
